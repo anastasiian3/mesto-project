@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mesto Russia - место для лучших фотографий"
+    />
+    <meta
+      name="keywords"
+      content="фото, фото друзей, фото семьи, фото путешествий, разместить фотографии, фотографии природы, страна, известные города"
+    />
+    <meta name="author" content="Анастасия" />
+    <link rel="stylesheet" href="pages/index.css" />
+    <title>Mesto Russia</title>
+  </head>
+  <body class="page">
+    <header class="header page__header">
+      <div class="header__logo"></div>
+    </header>
+    <main class="content">
+      <section class="user-profile page__user-profile">
+        <div class="user-profile__info">
+          <img
+            src="images/avatar.svg"
+            alt="Аватар пользователя"
+            class="user-profile__photo"
+          />
+          <div class="user-profile__name-info">
+            <div class="user-profile__name-change">
+              <h1 class="user-profile__name">Жак-Ив Кусто</h1>
+              <button type="submit" class="user-profile__name-button"></button>
+            </div>
+            <p class="user-profile__description">Исследователь океана</p>
+          </div>
+        </div>
+        <button type="submit" class="user-profile__add-button"></button>
+      </section>
+      <section class="photo-grid page__photo-grid">
+        <ul class="photo-grid__elements">
+          <li class="photo-grid__element">
+            <label for="like-picture-one">
+            <img
+              src="images/bailkal.jpg"
+              alt="Озеро Байкал"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Озеро Байкал</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-one"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+          <li class="photo-grid__element">
+            <label for="like-picture-two">
+            <img
+              src="images/chelyabinks.jpg"
+              alt="Красоты Челябинска"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Челябинская область</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-two"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+          <li class="photo-grid__element">
+            <label for="like-picture-three">
+            <img
+              src="images/kamchatka.jpg"
+              alt="Далекая Камчатка"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Камчатка</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-three"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+          <li class="photo-grid__element">
+            <label for="like-picture-four">
+            <img
+              src="images/karelia.jpg"
+              alt="Волшебная страна Карелия"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Карелия</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-four"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+          <li class="photo-grid__element">
+            <label for="like-picture-five">
+            <img
+              src="images/peterhof.jpg"
+              alt="Фонтаны Петергофа"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Петергоф</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-five"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+          <li class="photo-grid__element">
+            <label for="like-picture-six">
+            <img
+              src="images/ruza.jpg"
+              alt="Подмосковная Руза"
+              class="photo-grid__image"
+            />
+            <div class="photo-grid__info">
+              <h2 class="photo-grid__title">Руза</h2>
+                <input
+                  type="checkbox"
+                  id="like-picture-six"
+                  class="photo-grid__invisible-like"
+                />
+                <span class="photo-grid__visible-like"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer class="footer page__footer">&copy; 2022 Mesto Russia</footer>
+    <!--<section class="popup popup_opened">
+      <div class="popup__container">
+        <div class="popup__close-button"></div>
+      <form action="#" class="form__info">
+        <div class="form__main-container">
+          <h2 class="form__heading">Редактировать профиль</h2>
+          <input type="text" class="form__item" id="user-name" name="user-name" placeholder="Жак-Ив Кусто" required>
+          <input type="text" class="form__item" id="user-profession" name="user-profession" placeholder="Исследователь океана" required>
+          <button type="submit" class="form__button-submit"></button>  
+        </div>
+      </form>
+    </section>-->
+  </body>
+</html>

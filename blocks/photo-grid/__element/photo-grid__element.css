@@ -1,0 +1,9 @@
+.photo-grid__element {
+  background-color: #fff;
+  border-radius: 10px;
+  max-width: 282px;
+  min-height: 361px;
+  font-size: 0;
+  padding: 0;
+  margin: 0;
+}

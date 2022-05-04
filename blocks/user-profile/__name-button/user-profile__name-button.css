@@ -1,0 +1,22 @@
+.user-profile__name-button {
+  background-image: url(../../../images/edit-button.svg);
+  background-size: cover;
+  background-color: transparent;
+  border: 0;
+  height: 24px;
+  width: 24px;
+  align-self: center;
+  padding: 0;
+  transition: all 0.3s;
+}
+
+.user-profile__name-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 490px) {
+  .user-profile__name-button {
+    height: 18px;
+    width: 18px;
+  }
+}

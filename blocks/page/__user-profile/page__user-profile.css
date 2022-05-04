@@ -1,0 +1,11 @@
+.page__user-profile {
+  max-width: 880px;
+  margin: 40px auto 0;
+}
+
+@media screen and (max-width: 490px) {
+  .page__user-profile {
+    max-width: 282px;
+    margin-top: 42px;
+  }
+}

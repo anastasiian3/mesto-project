@@ -1,0 +1,9 @@
+.user-profile__name-change {
+  display: flex;
+}
+
+@media screen and (max-width: 490px) {
+  .user-profile__name-change {
+    margin-left: 28px;
+  }
+}

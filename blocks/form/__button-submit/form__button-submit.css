@@ -1,0 +1,13 @@
+.form__button-submit {
+  background-image: url(../../../images/submit-button.svg);
+  width: 358px;
+  height: 50px;
+  padding: 0;
+  border: 0;
+  margin-top: 48px;
+  transition: all 0.3s;
+}
+
+.form__button-submit:hover {
+  background-image: url(../../../images/submit-button-hover.svg);
+}
