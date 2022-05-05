@@ -1,4 +1,4 @@
-.user-profile__name-button {
+.user-profile__name-change-button {
   background-image: url(../../../images/edit-button.svg);
   background-size: cover;
   background-color: transparent;
@@ -10,12 +10,12 @@
   transition: all 0.3s;
 }
 
-.user-profile__name-button:hover {
+.user-profile__name-change-button:hover {
   opacity: 0.6;
 }
 
 @media screen and (max-width: 490px) {
-  .user-profile__name-button {
+  .user-profile__name-change-button {
     height: 18px;
     width: 18px;
   }

@@ -5,9 +5,18 @@
   padding: 0;
   border: 0;
   margin-top: 48px;
-  transition: all 0.3s;
+  transition: all 0.4s;
 }
 
 .form__button-submit:hover {
-  background-image: url(../../../images/submit-button-hover.svg);
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 490px) {
+  .form__button-submit {
+    background-image: url(../../../images/submit-button-small.svg);
+    width: 238px;
+    height: 46px;
+    background-size: cover;
+  }
 }

@@ -1,4 +1,4 @@
-.photo-grid__visible-like {
+.photo-grid__like {
   display: inline-block;
   vertical-align: middle;
   width: 22px;
@@ -7,12 +7,13 @@
   background-image: url(../../../images/like-disabled.svg);
   background-size: contain;
   background-repeat: no-repeat;
-}
-/*
-.photo-grid__visible-like:hover {
-  background-image: url(../../../images/like-hover.svg);
+  transition: opacity 0.2s;
 }
 
-.photo-grid__visible-like:focus {
+.photo-grid__like:hover {
+  opacity: 0.5;
+}
+
+.photo-grid__like:active {
   background-image: url(../../../images/like-active.png);
-}*/
+}

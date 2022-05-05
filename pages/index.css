@@ -11,14 +11,14 @@
 @import url(../blocks/header/__logo/header__logo.css);
 
 @import url(../blocks/user-profile/user-profile.css);
+@import url(../blocks/user-profile/__add-button/user-profile__add-button.css);
+@import url(../blocks/user-profile/__description/user-profile__description.css);
 @import url(../blocks/user-profile/__info/user-profile__info.css);
+@import url(../blocks/user-profile/__name-change-button/user-profile__name-change-button.css);
+@import url(../blocks/user-profile/__name-change-container/user-profile__name-change-container.css);
+@import url(../blocks/user-profile/__name-info-container/user-profile__name-info-container.css);
 @import url(../blocks/user-profile/__name/user-profile__name.css);
 @import url(../blocks/user-profile/__photo/user-profile__photo.css);
-@import url(../blocks/user-profile/__description/user-profile__description.css);
-@import url(../blocks/user-profile/__name-info/user-profile__name-info.css);
-@import url(../blocks/user-profile/__name-change/user-profile__name-change.css);
-@import url(../blocks/user-profile/__name-button/user-profile__name-button.css);
-@import url(../blocks/user-profile/__add-button/user-profile__add-button.css);
 
 @import url(../blocks/photo-grid/photo-grid.css);
 @import url(../blocks/photo-grid/__elements/photo-grid__elements.css);
@@ -26,8 +26,7 @@
 @import url(../blocks/photo-grid/__image/photo-grid__image.css);
 @import url(../blocks/photo-grid/__info/photo-grid__info.css);
 @import url(../blocks/photo-grid/__title/photo-grid__title.css);
-@import url(../blocks/photo-grid/__invisible-like/photo-grid__invisible-like.css);
-@import url(../blocks/photo-grid/__visible-like/photo-grid__visible-like.css);
+@import url(../blocks/photo-grid/__like/photo-grid__like.css);
 
 @import url(../blocks/footer/footer.css);
 

@@ -2,13 +2,23 @@
   background-image: url(../../../images/сlose-icon.svg);
   width: 32px;
   height: 32px;
+  background-size: cover;
   align-self: flex-end;
   position: relative;
   top: -40px;
   right: -40px;
-  transition: all 0.3s;
+  transition: opacity 0.3s;
 }
 
 .popup__close-button:hover {
-  background-image: url(../../../images/close-icon-hover.svg);
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 515px) {
+  .popup__close-button {
+    width: 20px;
+    height: 20px;
+    top: -40px;
+    right: 0px;
+  }
 }

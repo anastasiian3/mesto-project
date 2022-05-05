@@ -4,17 +4,58 @@
   height: 27px;
   box-sizing: border-box;
   padding: 0 0 13px 0;
-  border-bottom: 1px solid #000000;
-  opacity: 0.2;
-  background-color: transparent;
-  font-family: inherit;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   margin-bottom: 30px;
   outline: none;
+  color: #000000;
 }
 
 .form__item:last-of-type {
   margin-bottom: 0;
+}
+
+.form__item[type="text"] {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.form__item::placeholder {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.form__item::-webkit-input-placeholder {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.form__item::-moz-placeholder {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.form__item::-ms-input-placeholder {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+@media screen and (max-width: 490px) {
+  .form__item {
+    width: 238px;
+  }
 }
