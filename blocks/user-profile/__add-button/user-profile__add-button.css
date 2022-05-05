@@ -7,10 +7,11 @@
   width: 150px;
   padding: 0;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .user-profile__add-button:hover {
-  background-image: url(../../../images/add-button-hover.svg);
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 490px) {

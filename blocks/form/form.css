@@ -1,4 +1,13 @@
 .form {
   font-family: "Inter", "Arial", sans-serif;
   color: #000;
+  display: flex;
+  flex-direction: column;
+  padding-left: 36px;
+}
+
+@media screen and (max-width: 490px) {
+  .form {
+    padding-left: 22px;
+  }
 }

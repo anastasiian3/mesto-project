@@ -1,9 +1,9 @@
 .photo-grid__elements {
   list-style-type: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 282px);
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
   gap: 20px 17px;
-  justify-content: center;
+  justify-items: center;
   padding: 0;
   margin: 0;
 }

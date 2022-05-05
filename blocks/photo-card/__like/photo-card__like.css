@@ -1,4 +1,4 @@
-.photo-grid__like {
+.photo-card__like {
   display: inline-block;
   vertical-align: middle;
   width: 22px;
@@ -8,12 +8,17 @@
   background-size: contain;
   background-repeat: no-repeat;
   transition: opacity 0.2s;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-.photo-grid__like:hover {
+.photo-card__like:hover {
   opacity: 0.5;
 }
 
-.photo-grid__like:active {
-  background-image: url(../../../images/like-active.png);
+.photo-card__like:active {
+  background-image: url(../../../images/like-active.svg);
+  opacity: 1;
 }

@@ -31,115 +31,120 @@
             <div class="user-profile__name-change-container">
               <h1 class="user-profile__name">Жак-Ив Кусто</h1>
               <button
-                type="submit"
+                type="button"
+                aria-label="name-change"
                 class="user-profile__name-change-button"
               ></button>
             </div>
             <p class="user-profile__description">Исследователь океана</p>
           </div>
         </div>
-        <button type="submit" class="user-profile__add-button"></button>
+        <button
+          type="button"
+          aria-label="add-post"
+          class="user-profile__add-button"
+        ></button>
       </section>
       <section class="photo-grid page__photo-grid">
         <ul class="photo-grid__elements">
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/bailkal.jpg"
               alt="Озеро Байкал"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Озеро Байкал</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Озеро Байкал</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/chelyabinks.jpg"
               alt="Красоты Челябинска"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Челябинская область</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Челябинская область</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/kamchatka.jpg"
               alt="Далекая Камчатка"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Камчатка</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Камчатка</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/karelia.jpg"
               alt="Волшебная страна Карелия"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Карелия</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Карелия</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/peterhof.jpg"
               alt="Фонтаны Петергофа"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Петергоф</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Петергоф</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
-          <li class="photo-grid__element">
+          <li class="photo-card">
             <img
               src="images/ruza.jpg"
               alt="Подмосковная Руза"
-              class="photo-grid__image"
+              class="photo-card__image"
             />
-            <div class="photo-grid__info">
-              <h2 class="photo-grid__title">Руза</h2>
-              <div class="photo-grid__like"></div>
+            <div class="photo-card__info">
+              <h2 class="photo-card__title">Руза</h2>
+              <button type="button" class="photo-card__like"></button>
             </div>
           </li>
         </ul>
       </section>
     </main>
-    <footer class="footer page__footer">&copy; 2022 Mesto Russia</footer>
-    <section class="popup popup_opened">
+    <footer class="footer page__footer">
+      <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+    </footer>
+    <div class="popup popup_opened">
       <div class="popup__container">
-        <div class="popup__close-button"></div>
-        <form action="#" class="form__info">
-          <div class="form__main-container">
-            <h2 class="form__heading">Редактировать профиль</h2>
-            <input
-              type="text"
-              class="form__item"
-              id="user-name"
-              name="user-name"
-              value="Жак-Ив Кусто"
-              placeholder="Жак-Ив Кусто"
-              required
-            />
-            <input
-              type="text"
-              class="form__item"
-              id="user-profession"
-              name="user-profession"
-              value="Исследователь океана"
-              placeholder="Исследователь океана"
-              required
-            />
-            <button type="submit" class="form__button-submit"></button>
-          </div>
+        <button type="button" class="popup__close-button"></button>
+        <form action="#" name="form-change-info" class="form">
+          <h2 class="form__heading">Редактировать профиль</h2>
+          <input
+            type="text"
+            class="form__item"
+            id="user-name"
+            name="user-name"
+            value="Жак-Ив Кусто"
+            placeholder="Имя пользователя"
+            required
+          />
+          <input
+            type="text"
+            class="form__item"
+            id="user-profession"
+            name="user-profession"
+            value="Исследователь океана"
+            placeholder="Род деятельности"
+            required
+          />
+          <button type="submit" class="form__button-submit"></button>
         </form>
       </div>
-    </section>
+    </div>
   </body>
 </html>

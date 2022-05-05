@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 500px) {
   .user-profile__name-info-container {
     align-items: center;
     margin-bottom: 32px;

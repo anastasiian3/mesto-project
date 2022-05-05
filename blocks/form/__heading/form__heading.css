@@ -9,5 +9,7 @@
   .form__heading {
     font-size: 18px;
     line-height: 22px;
+    margin-top: 5px;
+    margin-bottom: 75px;
   }
 }

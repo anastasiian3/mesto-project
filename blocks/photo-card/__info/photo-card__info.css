@@ -1,4 +1,4 @@
-.photo-grid__info {
+.photo-card__info {
   display: flex;
   justify-content: space-between;
 }

@@ -4,7 +4,7 @@
   margin-right: 30px;
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 500px) {
   .user-profile__photo {
     margin: 0 auto 26px;
   }
