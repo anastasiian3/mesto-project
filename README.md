@@ -16,4 +16,4 @@
 
 ## Страница проекта на GitHub Pages
 
-- ["Место"](ссылка)
+- ["Место"](https://anastasiian3.github.io/mesto-project/index.html)
