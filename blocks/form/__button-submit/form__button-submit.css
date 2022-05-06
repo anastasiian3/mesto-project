@@ -1,5 +1,6 @@
 .form__button-submit {
-  background-image: url(../../../images/submit-button.svg);
+  background-color: #000000;
+  color: #ffffff;
   width: 358px;
   height: 50px;
   padding: 0;
@@ -20,9 +21,9 @@
 
 @media screen and (max-width: 490px) {
   .form__button-submit {
-    background-image: url(../../../images/submit-button-small.svg);
     width: 238px;
-    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
     background-size: cover;
     margin-top: 45px;
     margin-bottom: 25px;
