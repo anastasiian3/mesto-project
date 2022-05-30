@@ -17,8 +17,3 @@
 .photo-card__like:hover {
   opacity: 0.5;
 }
-
-.photo-card__like:active {
-  background-image: url(../../../images/like-active.svg);
-  opacity: 1;
-}

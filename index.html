@@ -47,9 +47,10 @@
       </section>
       <section class="photo-grid page__photo-grid">
         <ul class="photo-grid__elements">
-          <li class="photo-card">
+          <!-- <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/bailkal.jpg"
+              src="images/baikal_pic.jpg"
               alt="Озеро Байкал"
               class="photo-card__image"
             />
@@ -59,8 +60,9 @@
             </div>
           </li>
           <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/chelyabinks.jpg"
+              src="images/chelyab_pic.jpg"
               alt="Красоты Челябинска"
               class="photo-card__image"
             />
@@ -70,8 +72,9 @@
             </div>
           </li>
           <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/kamchatka.jpg"
+              src="images/kamchatka_pic.jpg"
               alt="Далекая Камчатка"
               class="photo-card__image"
             />
@@ -81,8 +84,9 @@
             </div>
           </li>
           <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/karelia.jpg"
+              src="images/karelia_pic.jpg"
               alt="Волшебная страна Карелия"
               class="photo-card__image"
             />
@@ -92,8 +96,9 @@
             </div>
           </li>
           <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/peterhof.jpg"
+              src="images/peterhof_pic.jpg"
               alt="Фонтаны Петергофа"
               class="photo-card__image"
             />
@@ -103,8 +108,9 @@
             </div>
           </li>
           <li class="photo-card">
+            <div class="photo-card__delete-icon"></div>
             <img
-              src="images/ruza.jpg"
+              src="images/ruza_pic.jpg"
               alt="Подмосковная Руза"
               class="photo-card__image"
             />
@@ -112,17 +118,17 @@
               <h2 class="photo-card__title">Руза</h2>
               <button type="button" class="photo-card__like"></button>
             </div>
-          </li>
+          </li> -->
         </ul>
       </section>
     </main>
     <footer class="footer page__footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup popup_opened">
+    <div class="popup">
       <div class="popup__container">
-        <button type="button" class="popup__close-button"></button>
-        <form action="#" name="form-change-info" class="form">
+        <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+        <form action="#" name="form-name-change" class="form form_add-name" id="form-name-change">
           <h2 class="form__heading">Редактировать профиль</h2>
           <input
             type="text"
@@ -142,9 +148,63 @@
             placeholder="Род деятельности"
             required
           />
-          <button type="submit" class="form__button-submit">Сохранить</button>
+          <button
+            type="submit"
+            class="form__button-submit form__button-submit-name"
+          >
+            Сохранить
+          </button>
         </form>
       </div>
     </div>
+    <div class="popup-post">
+      <div class="popup-post__container">
+        <button type="button" class="popup-post__close-button" aria-label="Закрыть окно"></button>
+        <form action="#" name="form-change-info" class="form form_add-post">
+          <h2 class="form__heading">Новое место</h2>
+          <input
+            type="text"
+            class="form__item form__item-place-title"
+            id="place-title"
+            name="place-title"
+            value=""
+            placeholder="Название"
+            required
+          />
+          <input
+            type="url"
+            class="form__item form__item-place-link"
+            id="place-link"
+            name="place-link"
+            value=""
+            placeholder="Ссылка на картинку"
+            required
+          />
+          <button
+            type="submit"
+            class="form__button-submit form__button-submit-post"
+          >
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="popup-picture">
+      <div class="popup-picture__container">
+        <button type="button" class="popup-picture__close-button" aria-label="Закрыть окно"></button>
+          <img src="images/peterhof_pic.jpg" alt="" class="popup-picture__pic">
+          <h2 class="popup-picture__pic-title">Байкал</h2>
+      </div>
+    <template id="post-template">
+      <li class="photo-card">
+        <div class="photo-card__delete-icon"></div>
+        <img src="" alt="Фото поста" class="photo-card__image" />
+        <div class="photo-card__info">
+          <h2 class="photo-card__title"></h2>
+          <button type="button" class="photo-card__like"></button>
+        </div>
+      </li>
+    </template>
+    <script src="script.js"></script>
   </body>
 </html>

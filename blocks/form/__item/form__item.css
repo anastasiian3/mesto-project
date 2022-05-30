@@ -27,7 +27,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #000000;
+  color: #c4c4c4;
 }
 
 .form__item::-webkit-input-placeholder {
@@ -35,7 +35,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #000000;
+  color: #c4c4c4;
 }
 
 .form__item::-moz-placeholder {
@@ -43,7 +43,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #000000;
+  color: #c4c4c4;
 }
 
 .form__item::-ms-input-placeholder {
@@ -51,7 +51,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #000000;
+  color: #c4c4c4;
 }
 
 @media screen and (max-width: 490px) {

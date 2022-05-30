@@ -1,0 +1,14 @@
+.photo-card__delete-icon {
+  background-image: url(../../../images/delete-icon.svg);
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.photo-card__delete-icon:hover {
+  opacity: 0.6;
+}
