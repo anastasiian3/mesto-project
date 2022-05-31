@@ -7,6 +7,8 @@ const popup = document.querySelector(".popup");
 
 function openProfile() {
   popup.classList.add("popup_opened");
+  nameInput.value = nameInfo.textContent;
+  jobInput.value = jobInfo.textContent;
 }
 
 openButtonProfile.addEventListener("click", openProfile);
@@ -34,18 +36,6 @@ closeNewPostButton.addEventListener("click", closeNewPost);
 // карточки из "коробки"
 const initialCards = [
   {
-    name: "Озеро Байкал",
-    link: "images/baikal_pic.jpg",
-  },
-  {
-    name: "Карелия",
-    link: "images/karelia_pic.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "images/chelyab_pic.jpg",
-  },
-  {
     name: "Камчатка",
     link: "images/kamchatka_pic.jpg",
   },
@@ -56,6 +46,18 @@ const initialCards = [
   {
     name: "Руза",
     link: "images/ruza_pic.jpg",
+  },
+  {
+    name: "Карелия",
+    link: "images/karelia_pic.jpg",
+  },
+  {
+    name: "Челябинская область",
+    link: "images/chelyab_pic.jpg",
+  },
+  {
+    name: "Озеро Байкал",
+    link: "images/baikal_pic.jpg",
   },
 ];
 
@@ -94,7 +96,6 @@ const clickLikeButton = function (evt) {
   evt.target.classList.toggle("photo-card__like_active");
 };
 
-//добавление нового поста
 const postsContainer = document.querySelector(".photo-grid__elements");
 const inputPlaceTitle = popupPost.querySelector("#place-title");
 const inputPlaceLink = popupPost.querySelector("#place-link");
@@ -102,6 +103,7 @@ const buttonAddPost = popupPost.querySelector(".form__button-submit-post");
 const formPost = document.querySelector(".form_add-post");
 const postTemplate = document.querySelector("#post-template");
 
+//создание нового поста
 const createCard = function (data) {
   let cardElement = postTemplate.content
     .cloneNode(true)
@@ -123,33 +125,27 @@ const createCard = function (data) {
 
   return cardElement;
 };
-
+//добавление карточек
 const renderCard = function (data, container) {
   const card = createCard(data);
-  container.append(card);
+  container.prepend(card);
 };
-
+// рендер карточек из "коробки"
 initialCards.forEach(function (item) {
   renderCard(item, postsContainer);
 });
-
+// отправка новых карточек через форму
 formPost.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  let placeTitle = inputPlaceTitle.value;
-  let placeLink = inputPlaceLink.value;
-  let post = postTemplate.content.cloneNode(true).querySelector(".photo-card");
-  post.querySelector(".photo-card__title").textContent = placeTitle;
-  post.querySelector(".photo-card__image").src = placeLink;
-  postsContainer.prepend(post);
+  const item = {
+    link: inputPlaceLink.value,
+    name: inputPlaceTitle.value,
+  };
+  console.log(item);
   inputPlaceTitle.value = "";
   inputPlaceLink.value = "";
   closeNewPost();
-  // удаление карточки
-  resetButton.addEventListener("click", () => clickButtonDelete(cardElement));
-  //лайк карточки
-  likeButton.addEventListener("click", clickLikeButton);
-  //попап с картинкой
-  cardImage.addEventListener("click", () => clickImage(data));
+  renderCard(item, postsContainer);
 });
 
 const post = document.querySelector(".photo-card");
