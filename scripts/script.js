@@ -83,6 +83,7 @@ closeImageButton.addEventListener("click", closePopupImage);
 const clickImage = function (data) {
   popupImage.src = data.link;
   popupImageTitle.textContent = data.name;
+  popupImage.alt = document.querySelector(".photo-card__image").alt;
   openPopupImage();
 };
 
@@ -115,6 +116,7 @@ const createCard = function (data) {
 
   cardImage.src = data.link;
   cardTitle.textContent = data.name;
+  cardImage.alt = cardImage.alt;
 
   //удаление карточек
   resetButton.addEventListener("click", () => clickButtonDelete(cardElement));
@@ -134,19 +136,20 @@ const renderCard = function (data, container) {
 initialCards.forEach(function (item) {
   renderCard(item, postsContainer);
 });
+
 // отправка новых карточек через форму
-formPost.addEventListener("submit", function (evt) {
+const addNewCards = function (evt) {
   evt.preventDefault();
   const item = {
     link: inputPlaceLink.value,
     name: inputPlaceTitle.value,
   };
-  console.log(item);
-  inputPlaceTitle.value = "";
-  inputPlaceLink.value = "";
+  formPost.reset();
   closeNewPost();
   renderCard(item, postsContainer);
-});
+};
+// слушатель событий формы
+formPost.addEventListener("submit", addNewCards);
 
 const post = document.querySelector(".photo-card");
 
