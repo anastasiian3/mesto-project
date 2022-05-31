@@ -40,16 +40,16 @@ const initialCards = [
     link: "images/kamchatka_pic.jpg",
   },
   {
-    name: "Петергоф",
-    link: "images/peterhof_pic.jpg",
-  },
-  {
     name: "Руза",
     link: "images/ruza_pic.jpg",
   },
   {
     name: "Карелия",
     link: "images/karelia_pic.jpg",
+  },
+  {
+    name: "Петергоф",
+    link: "images/peterhof_pic.jpg",
   },
   {
     name: "Челябинская область",
