@@ -1,0 +1,13 @@
+.popup__close-button_type_image {
+  top: -8px;
+  right: -40px;
+}
+
+@media screen and (max-width: 515px) {
+  .popup__close-button_type_image {
+    width: 20px;
+    height: 20px;
+    top: -16px;
+    right: 0px;
+  }
+}

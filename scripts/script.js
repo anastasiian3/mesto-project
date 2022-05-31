@@ -1,37 +1,46 @@
-// кнопка открытия редактирования профиля
+// переменные для различных попапов
+const popupProfile = document.querySelector(".popup_type_name");
+const popupPost = document.querySelector(".popup_type_post");
+const popupImageZoom = document.querySelector(".popup_type_image");
+
+// переменные для открытия попапа
 const profile = document.querySelector(".user-profile");
 const openButtonProfile = profile.querySelector(
   ".user-profile__name-change-button"
 );
-const popup = document.querySelector(".popup");
+const newPostButton = profile.querySelector(".user-profile__add-button");
 
-function openProfile() {
-  popup.classList.add("popup_opened");
+// переменные для закрытия попапа
+const closeProfileButton = popupProfile.querySelector(".popup__close-button");
+const closeNewPostButton = popupPost.querySelector(".popup__close-button");
+const closeImageButton = document.querySelector(
+  ".popup__close-button_type_image"
+);
+
+//функция для открытия попапов
+const popupOpened = function (popup) {
+  popup.classList.toggle("popup_opened");
+};
+
+// функция для закрытия попапов
+const popupClosed = function (popup) {
+  popup.classList.remove("popup_opened");
+};
+
+//заполнение попапа профиля данными
+const profileOpened = function () {
   nameInput.value = nameInfo.textContent;
   jobInput.value = jobInfo.textContent;
-}
+  popupOpened(popupProfile);
+};
 
-openButtonProfile.addEventListener("click", openProfile);
-// кнопка закрытия редактирования профиля
-const closeNameButton = popup.querySelector(".popup__close-button");
-function closeProfile() {
-  popup.classList.remove("popup_opened");
-}
-closeNameButton.addEventListener("click", closeProfile);
+// закрытие и открытие попапа редактирования профиля по кнопке
+openButtonProfile.addEventListener("click", profileOpened);
+closeProfileButton.addEventListener("click", () => popupClosed(popupProfile));
 
-// кнопка открытия добавления нового поста
-const popupPost = document.querySelector(".popup-post");
-const newPostButton = profile.querySelector(".user-profile__add-button");
-const closeNewPostButton = popupPost.querySelector(".popup-post__close-button");
-function newPost() {
-  popupPost.classList.add("popup-post_opened");
-}
-newPostButton.addEventListener("click", newPost);
-// кнопка закрытия добавления нового поста
-function closeNewPost() {
-  popupPost.classList.remove("popup-post_opened");
-}
-closeNewPostButton.addEventListener("click", closeNewPost);
+//кнопка добавления и закрытия окна нового поста
+newPostButton.addEventListener("click", () => popupOpened(popupPost));
+closeNewPostButton.addEventListener("click", () => popupClosed(popupPost));
 
 // карточки из "коробки"
 const initialCards = [
@@ -62,30 +71,19 @@ const initialCards = [
 ];
 
 //попап с картинкой
-const popupImageZoom = document.querySelector(".popup-picture");
-const popupImage = popupImageZoom.querySelector(".popup-picture__pic");
-const popupImageTitle = popupImageZoom.querySelector(
-  ".popup-picture__pic-title"
-);
-
-// открытие попапа с картинкой
-const openPopupImage = function () {
-  popupImageZoom.classList.add("popup-picture_opened");
-};
-// закрытие попапа с картинкой
-const closePopupImage = function () {
-  popupImageZoom.classList.remove("popup-picture_opened");
-};
-const closeImageButton = document.querySelector(".popup-picture__close-button");
-closeImageButton.addEventListener("click", closePopupImage);
+const popupImage = popupImageZoom.querySelector(".popup__image");
+const popupImageTitle = popupImageZoom.querySelector(".popup__image-title");
 
 // функция для клика на картинку
 const clickImage = function (data) {
   popupImage.src = data.link;
   popupImageTitle.textContent = data.name;
-  popupImage.alt = document.querySelector(".photo-card__image").alt;
-  openPopupImage();
+  popupImage.alt = data.name;
+  popupOpened(popupImageZoom);
 };
+
+// закрытие попапа с картинкой
+closeImageButton.addEventListener("click", () => popupClosed(popupImageZoom));
 
 // функция удаления карточки
 const clickButtonDelete = function (element) {
@@ -116,7 +114,7 @@ const createCard = function (data) {
 
   cardImage.src = data.link;
   cardTitle.textContent = data.name;
-  cardImage.alt = cardImage.alt;
+  cardImage.alt = data.name;
 
   //удаление карточек
   resetButton.addEventListener("click", () => clickButtonDelete(cardElement));
@@ -145,13 +143,11 @@ const addNewCards = function (evt) {
     name: inputPlaceTitle.value,
   };
   formPost.reset();
-  closeNewPost();
+  popupClosed(popupPost);
   renderCard(item, postsContainer);
 };
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
-
-const post = document.querySelector(".photo-card");
 
 //изменение формы
 const formName = document.querySelector("#form-name-change");
@@ -163,7 +159,7 @@ function editProfileInfo(evt) {
   evt.preventDefault();
   nameInfo.textContent = nameInput.value;
   jobInfo.textContent = jobInput.value;
-  closeProfile();
+  popupClosed(popupProfile);
 }
 
 formName.addEventListener("submit", editProfileInfo);

@@ -1,0 +1,11 @@
+.popup__container_type_name {
+  background-color: #ffffff;
+  width: 430px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 490px) {
+  .popup__container_type_name {
+    width: 282px;
+  }
+}

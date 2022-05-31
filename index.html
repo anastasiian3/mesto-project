@@ -52,8 +52,8 @@
     <footer class="footer page__footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
-      <div class="popup__container">
+    <div class="popup popup_type_name">
+      <div class="popup__container popup__container_type_name">
         <button
           type="button"
           class="popup__close-button"
@@ -93,11 +93,11 @@
         </form>
       </div>
     </div>
-    <div class="popup-post">
-      <div class="popup-post__container">
+    <div class="popup popup_type_post">
+      <div class="popup__container popup__container_type_post">
         <button
           type="button"
-          class="popup-post__close-button"
+          class="popup__close-button"
           aria-label="Закрыть окно"
         ></button>
         <form action="#" name="form-change-info" class="form form_add-post">
@@ -129,15 +129,15 @@
         </form>
       </div>
     </div>
-    <div class="popup-picture">
-      <div class="popup-picture__container">
+    <div class="popup popup_type_image">
+      <div class="popup__container popup__container_type_image">
         <button
           type="button"
-          class="popup-picture__close-button"
+          class="popup__close-button popup__close-button_type_image"
           aria-label="Закрыть окно"
         ></button>
-        <img src="/" alt="" class="popup-picture__pic" />
-        <h2 class="popup-picture__pic-title"></h2>
+        <img src="/" alt="" class="popup__image" />
+        <h2 class="popup__image-title"></h2>
       </div>
     </div>
     <template id="post-template">

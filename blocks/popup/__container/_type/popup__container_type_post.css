@@ -1,13 +1,11 @@
-.popup-post__container {
+.popup__container_type_post {
   background-color: #ffffff;
   width: 430px;
-  display: flex;
-  flex-direction: column;
   border-radius: 10px;
 }
 
 @media screen and (max-width: 490px) {
-  .popup-post__container {
+  .popup__container_type_post {
     width: 282px;
   }
 }
