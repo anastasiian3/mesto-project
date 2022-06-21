@@ -64,26 +64,37 @@
           name="form-name-change"
           class="form form_add-name"
           id="form-name-change"
+          novalidate
         >
           <h2 class="form__heading">Редактировать профиль</h2>
-          <input
-            type="text"
-            class="form__item"
-            id="user-name"
-            name="user-name"
-            value=""
-            placeholder="Имя пользователя"
-            required
-          />
-          <input
-            type="text"
-            class="form__item"
-            id="user-profession"
-            name="user-profession"
-            value=""
-            placeholder="Род деятельности"
-            required
-          />
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input"
+              id="name-input"
+              name="name-input"
+              value=""
+              placeholder="Имя пользователя"
+              minlength="2"
+              maxlength="40"
+              required
+            />
+            <span class="form__input-error name-input-error"></span>
+          </label>
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input"
+              id="profession-input"
+              name="profession-input"
+              value=""
+              placeholder="Род деятельности"
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="form__input-error profession-input-error"></span>
+          </label>
           <button
             type="submit"
             class="form__button-submit form__button-submit-name"
@@ -100,26 +111,39 @@
           class="popup__close-button"
           aria-label="Закрыть окно"
         ></button>
-        <form action="#" name="form-change-info" class="form form_add-post">
+        <form
+          action="#"
+          name="form-change-info"
+          class="form form_add-post"
+          novalidate
+        >
           <h2 class="form__heading">Новое место</h2>
-          <input
-            type="text"
-            class="form__item form__item-place-title"
-            id="place-title"
-            name="place-title"
-            value=""
-            placeholder="Название"
-            required
-          />
-          <input
-            type="url"
-            class="form__item form__item-place-link"
-            id="place-link"
-            name="place-link"
-            value=""
-            placeholder="Ссылка на картинку"
-            required
-          />
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input form__input-place-title"
+              id="place-title"
+              name="place-title"
+              value=""
+              placeholder="Название"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="form__input-error place-title-error"></span>
+          </label>
+          <label class="form__field">
+            <input
+              type="url"
+              class="form__input form__input-place-link"
+              id="place-link"
+              name="place-link"
+              value=""
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <span class="form__input-error place-link-error"></span>
+          </label>
           <button
             type="submit"
             class="form__button-submit form__button-submit-post"
@@ -150,6 +174,6 @@
         </div>
       </li>
     </template>
-    <script src="scripts/script.js"></script>
+    <script src="src/index.js"></script>
   </body>
 </html>
