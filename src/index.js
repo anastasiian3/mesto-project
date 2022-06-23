@@ -1,3 +1,5 @@
+import "../pages/index.css"; // добавьте импорт главного файла стилей
+
 // переменные для различных попапов
 const popupProfile = document.querySelector(".popup_type_name");
 const popupPost = document.querySelector(".popup_type_post");
@@ -19,20 +21,29 @@ const closeImageButton = document.querySelector(
 
 //функция для открытия попапов
 const popupOpened = function (popup) {
+  enableValidation();
   popup.classList.toggle("popup_opened");
 };
 
 // функция для закрытия попапов
 const popupClosed = function (popup) {
   popup.classList.remove("popup_opened");
+  /*document.removeEventListener("keydown", keyEscHandler);*/
 };
 
 //заполнение попапа профиля данными
 const profileOpened = function () {
   nameInput.value = nameInfo.textContent;
   jobInput.value = jobInfo.textContent;
-  enableValidation();
   popupOpened(popupProfile);
+
+  const profileForm = document.querySelector("#form-name-change");
+  const inputsProfile = Array.from(
+    document.querySelectorAll(".form__input-profile")
+  );
+  inputsProfile.forEach((inputProfile) => {
+    checkInputValidity(profileForm, inputProfile);
+  });
 };
 
 // закрытие и открытие попапа редактирования профиля по кнопке
@@ -43,8 +54,26 @@ closeProfileButton.addEventListener("click", () => popupClosed(popupProfile));
 newPostButton.addEventListener("click", () => popupOpened(popupPost));
 closeNewPostButton.addEventListener("click", () => popupClosed(popupPost));
 
-// карточки из "коробки"
+//переменные для картинок
+const kamchatka = new URL("../images/kamchatka_pic.jpg", import.meta.url);
+const ruza = new URL("../images/ruza_pic.jpg", import.meta.url);
+const karelia = new URL("../images/karelia_pic.jpg", import.meta.url);
+const peterhof = new URL("../images/peterhof_pic.jpg", import.meta.url);
+const chelyaboblast = new URL("../images/chelyab_pic.jpg", import.meta.url);
+const baikal = new URL("../images/baikal_pic.jpg", import.meta.url);
+
 const initialCards = [
+  // меняем исходные пути на переменные
+  { name: "Камчатка", link: kamchatka },
+  { name: "Руза", link: ruza },
+  { name: "Карелия", link: karelia },
+  { name: "Петергоф", link: peterhof },
+  { name: "Челябинская область", link: chelyaboblast },
+  { name: "Озеро Байкал", link: baikal },
+];
+
+// карточки из "коробки"
+/*const initialCards = [
   {
     name: "Камчатка",
     link: "images/kamchatka_pic.jpg",
@@ -69,7 +98,7 @@ const initialCards = [
     name: "Озеро Байкал",
     link: "images/baikal_pic.jpg",
   },
-];
+];*/
 
 //попап с картинкой
 const popupImage = popupImageZoom.querySelector(".popup__image");
@@ -99,7 +128,6 @@ const clickLikeButton = function (evt) {
 const postsContainer = document.querySelector(".photo-grid__elements");
 const inputPlaceTitle = popupPost.querySelector("#place-title");
 const inputPlaceLink = popupPost.querySelector("#place-link");
-const buttonAddPost = popupPost.querySelector(".form__button-submit-post");
 const formPost = document.querySelector(".form_add-post");
 const postTemplate = document.querySelector("#post-template");
 
@@ -160,6 +188,7 @@ function editProfileInfo(evt) {
   evt.preventDefault();
   nameInfo.textContent = nameInput.value;
   jobInfo.textContent = jobInput.value;
+  enableValidation();
   popupClosed(popupProfile);
 }
 
@@ -229,12 +258,22 @@ const enableValidation = () => {
     formElement.addEventListener("submit", function (evt) {
       evt.preventDefault();
     });
-
     setEventListeners(formElement);
   });
 };
 
-enableValidation();
+const validationConfig = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__button-submit",
+  inactiveButtonClass: ".form__button-submit_inactive",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_active",
+};
+
+enableValidation(validationConfig);
+
+/*enableValidation();*/
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
@@ -245,7 +284,9 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add("form__button-submit_inactive");
+    /*buttonElement.classList.add(validationConfig.inactiveButtonClass);*/
   } else {
     buttonElement.classList.remove("form__button-submit_inactive");
+    /*buttonElement.classList.remove(validationConfig.inactiveButtonClass);*/
   }
 }
