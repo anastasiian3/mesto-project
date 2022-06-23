@@ -1,5 +1,30 @@
 import "../pages/index.css"; // добавьте импорт главного файла стилей
 
+import {
+  popupOpened,
+  popupClosed,
+  profileOpened,
+  openButtonProfile,
+  closeProfileButton,
+  newPostButton,
+  closeNewPostButton,
+  closeImageButton,
+  popupImageZoom,
+  formName,
+  editProfileInfo,
+  popupProfile,
+  popupPost,
+  keyEscHandler,
+} from "./components/modal.js";
+
+import {
+  formPost,
+  initialCards,
+  addNewCards,
+  renderCard,
+  postsContainer,
+} from "./components/card.js";
+/*
 // переменные для различных попапов
 const popupProfile = document.querySelector(".popup_type_name");
 const popupPost = document.querySelector(".popup_type_post");
@@ -17,18 +42,16 @@ const closeProfileButton = popupProfile.querySelector(".popup__close-button");
 const closeNewPostButton = popupPost.querySelector(".popup__close-button");
 const closeImageButton = document.querySelector(
   ".popup__close-button_type_image"
-);
-
+);*/
+/*
 //функция для открытия попапов
 const popupOpened = function (popup) {
-  enableValidation();
   popup.classList.toggle("popup_opened");
 };
 
 // функция для закрытия попапов
 const popupClosed = function (popup) {
   popup.classList.remove("popup_opened");
-  /*document.removeEventListener("keydown", keyEscHandler);*/
 };
 
 //заполнение попапа профиля данными
@@ -42,10 +65,10 @@ const profileOpened = function () {
     document.querySelectorAll(".form__input-profile")
   );
   inputsProfile.forEach((inputProfile) => {
-    checkInputValidity(profileForm, inputProfile);
+    checkInputValidity(profileForm, inputProfile, validationConfig);
   });
 };
-
+*/
 // закрытие и открытие попапа редактирования профиля по кнопке
 openButtonProfile.addEventListener("click", profileOpened);
 closeProfileButton.addEventListener("click", () => popupClosed(popupProfile));
@@ -54,7 +77,10 @@ closeProfileButton.addEventListener("click", () => popupClosed(popupProfile));
 newPostButton.addEventListener("click", () => popupOpened(popupPost));
 closeNewPostButton.addEventListener("click", () => popupClosed(popupPost));
 
-//переменные для картинок
+// закрытие попапа с картинкой
+closeImageButton.addEventListener("click", () => popupClosed(popupImageZoom));
+
+/*//переменные для картинок
 const kamchatka = new URL("../images/kamchatka_pic.jpg", import.meta.url);
 const ruza = new URL("../images/ruza_pic.jpg", import.meta.url);
 const karelia = new URL("../images/karelia_pic.jpg", import.meta.url);
@@ -70,36 +96,8 @@ const initialCards = [
   { name: "Петергоф", link: peterhof },
   { name: "Челябинская область", link: chelyaboblast },
   { name: "Озеро Байкал", link: baikal },
-];
-
-// карточки из "коробки"
-/*const initialCards = [
-  {
-    name: "Камчатка",
-    link: "images/kamchatka_pic.jpg",
-  },
-  {
-    name: "Руза",
-    link: "images/ruza_pic.jpg",
-  },
-  {
-    name: "Карелия",
-    link: "images/karelia_pic.jpg",
-  },
-  {
-    name: "Петергоф",
-    link: "images/peterhof_pic.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "images/chelyab_pic.jpg",
-  },
-  {
-    name: "Озеро Байкал",
-    link: "images/baikal_pic.jpg",
-  },
 ];*/
-
+/*
 //попап с картинкой
 const popupImage = popupImageZoom.querySelector(".popup__image");
 const popupImageTitle = popupImageZoom.querySelector(".popup__image-title");
@@ -110,11 +108,8 @@ const clickImage = function (data) {
   popupImageTitle.textContent = data.name;
   popupImage.alt = data.name;
   popupOpened(popupImageZoom);
-};
-
-// закрытие попапа с картинкой
-closeImageButton.addEventListener("click", () => popupClosed(popupImageZoom));
-
+};*/
+/*
 // функция удаления карточки
 const clickButtonDelete = function (element) {
   element.remove();
@@ -174,10 +169,11 @@ const addNewCards = function (evt) {
   formPost.reset();
   popupClosed(popupPost);
   renderCard(item, postsContainer);
-};
+};*/
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
 
+/*
 //изменение формы
 const formName = document.querySelector("#form-name-change");
 const nameInfo = document.querySelector(".user-profile__name");
@@ -188,22 +184,26 @@ function editProfileInfo(evt) {
   evt.preventDefault();
   nameInfo.textContent = nameInput.value;
   jobInfo.textContent = jobInput.value;
-  enableValidation();
   popupClosed(popupProfile);
-}
+}*/
 
 formName.addEventListener("submit", editProfileInfo);
 
-//закрытие попапов Esc
-function keyEscHandler(evt) {
+// рендер карточек из "коробки"
+initialCards.forEach(function (item) {
+  renderCard(item, postsContainer);
+});
+
+//закрытие попапов на Esc
+/* function keyEscHandler(evt) {
   if (evt.key === "Escape") {
     const openPopup = document.querySelector(".popup_opened");
     openPopup.classList.remove("popup_opened");
   }
-}
+} */
 document.addEventListener("keydown", keyEscHandler);
 
-//закрытие попапов кликом на оверлей
+/* //закрытие попапов кликом на оверлей
 const popups = document.querySelectorAll(".popup");
 popups.forEach((item) => {
   item.addEventListener("click", (evt) => {
@@ -212,68 +212,63 @@ popups.forEach((item) => {
     }
     popupClosed(evt.target.closest(".popup"));
   });
-});
+}); */
 
+/*
 // валидация форм
 // функция, показывающая ошибку
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add("form__input_type_error");
+  inputElement.classList.add(config.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add("form__input-error_active");
+  errorElement.classList.add(config.errorClass);
 };
 
 // функция, прячущая ошибку
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove("form__input_type_error");
-  errorElement.classList.remove("form__input-error_active");
+  inputElement.classList.remove(config.inputErrorClass);
+  errorElement.classList.remove(config.errorClass);
   errorElement.textContent = "";
 };
 
 // функция, проверяющая валидность элемента ввода
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, config) => {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      config
+    );
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, config);
   }
 };
 
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
-  const buttonElement = formElement.querySelector(".form__button-submit");
-  toggleButtonState(inputList, buttonElement);
+const setEventListeners = (formElement, config) => {
+  const inputList = Array.from(
+    formElement.querySelectorAll(config.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, config);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkInputValidity(formElement, inputElement, config);
+      toggleButtonState(inputList, buttonElement, config);
     });
   });
 };
 
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".form"));
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener("submit", function (evt) {
       evt.preventDefault();
     });
-    setEventListeners(formElement);
+    setEventListeners(formElement, config);
   });
 };
-
-const validationConfig = {
-  formSelector: ".form",
-  inputSelector: ".form__input",
-  submitButtonSelector: ".form__button-submit",
-  inactiveButtonClass: ".form__button-submit_inactive",
-  inputErrorClass: "form__input_type_error",
-  errorClass: "form__input-error_active",
-};
-
-enableValidation(validationConfig);
-
-/*enableValidation();*/
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
@@ -281,12 +276,25 @@ function hasInvalidInput(inputList) {
   });
 }
 
-function toggleButtonState(inputList, buttonElement) {
+function toggleButtonState(inputList, buttonElement, config) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add("form__button-submit_inactive");
-    /*buttonElement.classList.add(validationConfig.inactiveButtonClass);*/
+    buttonElement.classList.add(config.inactiveButtonClass);
+    buttonElement.disabled = "disabled";
   } else {
-    buttonElement.classList.remove("form__button-submit_inactive");
-    /*buttonElement.classList.remove(validationConfig.inactiveButtonClass);*/
+    buttonElement.classList.remove(config.inactiveButtonClass);
+    buttonElement.disabled = false;
   }
-}
+}*/
+
+// валидация форм
+import { enableValidation, checkInputValidity } from "./components/validate.js";
+export const validationConfig = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__button-submit",
+  inactiveButtonClass: "form__button-submit_inactive",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_active",
+};
+
+enableValidation(validationConfig);
