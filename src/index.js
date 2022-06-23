@@ -48,7 +48,7 @@ initialCards.forEach(function (item) {
 document.addEventListener("keydown", keyEscHandler);
 
 // валидация форм
-import { enableValidation, checkInputValidity } from "./components/validate.js";
+import { enableValidation } from "./components/validate.js";
 export const validationConfig = {
   formSelector: ".form",
   inputSelector: ".form__input",
