@@ -65,10 +65,6 @@ const renderCard = function (data, container) {
   const card = createCard(data);
   container.prepend(card);
 };
-/* // рендер карточек из "коробки"
-initialCards.forEach(function (item) {
-  renderCard(item, postsContainer);
-}); */
 
 // отправка новых карточек через форму
 const addNewCards = function (evt) {
