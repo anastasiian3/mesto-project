@@ -1,15 +1,15 @@
 export { formPost, initialCards, addNewCards, renderCard, postsContainer };
 
-import { popupPost } from "./modal.js";
-import { clickImage, popupClosed } from "./modal.js";
+import { popupPost, clickImage, popupClosed } from "./modal.js";
+/*import { clickImage, popupClosed } from "./modal.js";*/
 
 //переменные для картинок
-const kamchatka = new URL("../../images/kamchatka_pic.jpg", import.meta.url);
-const ruza = new URL("../../images/ruza_pic.jpg", import.meta.url);
-const karelia = new URL("../../images/karelia_pic.jpg", import.meta.url);
-const peterhof = new URL("../../images/peterhof_pic.jpg", import.meta.url);
-const chelyaboblast = new URL("../../images/chelyab_pic.jpg", import.meta.url);
-const baikal = new URL("../../images/baikal_pic.jpg", import.meta.url);
+const kamchatka = new URL("../images/kamchatka_pic.jpg", import.meta.url);
+const ruza = new URL("../images/ruza_pic.jpg", import.meta.url);
+const karelia = new URL("../images/karelia_pic.jpg", import.meta.url);
+const peterhof = new URL("../images/peterhof_pic.jpg", import.meta.url);
+const chelyaboblast = new URL("../images/chelyab_pic.jpg", import.meta.url);
+const baikal = new URL("../images/baikal_pic.jpg", import.meta.url);
 
 const initialCards = [
   // меняем исходные пути на переменные
