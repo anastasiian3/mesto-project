@@ -68,4 +68,30 @@ function toggleButtonState(inputList, buttonElement, config) {
   }
 }
 
-export { enableValidation, checkInputValidity };
+function disableButton(buttonElement, config) {
+  buttonElement.classList.add(config.inactiveButtonClass);
+  buttonElement.disabled = "disabled";
+}
+
+function hideErrorText() {
+  const errorTextList = document.querySelectorAll(".form__input-error");
+  errorTextList.forEach((error) => {
+    error.textContent = "";
+  });
+}
+
+function hideErrorLine() {
+  const inputList = document.querySelectorAll(".form__input");
+  inputList.forEach((inputElement) => {
+    inputElement.classList.remove("form__input_type_error");
+  });
+}
+
+export {
+  enableValidation,
+  checkInputValidity,
+  toggleButtonState,
+  disableButton,
+  hideErrorText,
+  hideErrorLine,
+};

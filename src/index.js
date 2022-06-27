@@ -1,40 +1,71 @@
 import "../pages/index.css"; // добавьте импорт главного файла стилей
 
+import { openPopup, closePopup } from "./components/modal.js";
+
+import { renderCard } from "./components/card.js";
+
+import { disableButton, enableValidation } from "./components/validate.js";
+
 import {
-  popupOpened,
-  popupClosed,
-  profileOpened,
+  initialCards,
+  postsContainer,
+  formPost,
+  popupPost,
+  popupProfile,
   openButtonProfile,
-  closeProfileButton,
   newPostButton,
+  closeProfileButton,
   closeNewPostButton,
   closeImageButton,
-  popupImageZoom,
   formName,
-  editProfileInfo,
-  popupProfile,
-  popupPost,
-  keyEscHandler,
-} from "./components/modal.js";
+  nameInfo,
+  nameInput,
+  jobInfo,
+  jobInput,
+} from "./components/data.js";
 
-import {
-  formPost,
-  initialCards,
-  addNewCards,
-  renderCard,
-  postsContainer,
-} from "./components/card.js";
+//функция для заполнения попапа профиля данными
+const openProfile = function () {
+  nameInput.value = nameInfo.textContent;
+  jobInput.value = jobInfo.textContent;
+  openPopup(popupProfile);
+};
+
+// функция для редактирования информации в профиле
+function editProfileInfo(evt) {
+  evt.preventDefault();
+  nameInfo.textContent = nameInput.value;
+  jobInfo.textContent = jobInput.value;
+  closePopup(popupProfile);
+}
 
 // закрытие и открытие попапа редактирования профиля по кнопке
-openButtonProfile.addEventListener("click", profileOpened);
-closeProfileButton.addEventListener("click", () => popupClosed(popupProfile));
+openButtonProfile.addEventListener("click", openProfile);
+closeProfileButton.addEventListener("click", () => closePopup(popupProfile));
 
 //кнопка добавления и закрытия окна нового поста
-newPostButton.addEventListener("click", () => popupOpened(popupPost));
-closeNewPostButton.addEventListener("click", () => popupClosed(popupPost));
+newPostButton.addEventListener("click", () => openPopup(popupPost));
+closeNewPostButton.addEventListener("click", () => closePopup(popupPost));
 
 // закрытие попапа с картинкой
-closeImageButton.addEventListener("click", () => popupClosed(popupImageZoom));
+closeImageButton.addEventListener("click", () => closePopup(popupImageZoom));
+
+// отправка новых карточек через форму
+const addNewCards = function (evt) {
+  evt.preventDefault();
+  const inputPlaceTitle = popupPost.querySelector("#place-title");
+  const inputPlaceLink = popupPost.querySelector("#place-link");
+  const buttonElement = popupPost.querySelector(".form__button-submit-post");
+  const item = {
+    link: inputPlaceLink.value,
+    name: inputPlaceTitle.value,
+  };
+
+  formPost.reset();
+  renderCard(item, postsContainer);
+  disableButton(buttonElement, validationConfig);
+  closePopup(popupPost);
+};
 
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
@@ -45,10 +76,7 @@ initialCards.forEach(function (item) {
   renderCard(item, postsContainer);
 });
 
-document.addEventListener("keydown", keyEscHandler);
-
 // валидация форм
-import { enableValidation } from "./components/validate.js";
 export const validationConfig = {
   formSelector: ".form",
   inputSelector: ".form__input",

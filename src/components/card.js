@@ -1,25 +1,6 @@
-export { formPost, initialCards, addNewCards, renderCard, postsContainer };
+import { clickImage } from "./modal.js";
 
-import { popupPost, clickImage, popupClosed } from "./modal.js";
-/*import { clickImage, popupClosed } from "./modal.js";*/
-
-//переменные для картинок
-const kamchatka = new URL("../images/kamchatka_pic.jpg", import.meta.url);
-const ruza = new URL("../images/ruza_pic.jpg", import.meta.url);
-const karelia = new URL("../images/karelia_pic.jpg", import.meta.url);
-const peterhof = new URL("../images/peterhof_pic.jpg", import.meta.url);
-const chelyaboblast = new URL("../images/chelyab_pic.jpg", import.meta.url);
-const baikal = new URL("../images/baikal_pic.jpg", import.meta.url);
-
-const initialCards = [
-  // меняем исходные пути на переменные
-  { name: "Камчатка", link: kamchatka },
-  { name: "Руза", link: ruza },
-  { name: "Карелия", link: karelia },
-  { name: "Петергоф", link: peterhof },
-  { name: "Челябинская область", link: chelyaboblast },
-  { name: "Озеро Байкал", link: baikal },
-];
+import { postTemplate } from "./data.js";
 
 // функция удаления карточки
 const clickButtonDelete = function (element) {
@@ -31,15 +12,9 @@ const clickLikeButton = function (evt) {
   evt.target.classList.toggle("photo-card__like_active");
 };
 
-const postsContainer = document.querySelector(".photo-grid__elements");
-const inputPlaceTitle = popupPost.querySelector("#place-title");
-const inputPlaceLink = popupPost.querySelector("#place-link");
-const formPost = document.querySelector(".form_add-post");
-const postTemplate = document.querySelector("#post-template");
-
-//создание нового поста
+//функция для создания новой карточки
 const createCard = function (data) {
-  let cardElement = postTemplate.content
+  const cardElement = postTemplate.content
     .cloneNode(true)
     .querySelector(".photo-card");
   const cardImage = cardElement.querySelector(".photo-card__image");
@@ -60,20 +35,11 @@ const createCard = function (data) {
 
   return cardElement;
 };
-//добавление карточек
+
+//функция для добавления карточек на страницу
 const renderCard = function (data, container) {
   const card = createCard(data);
   container.prepend(card);
 };
 
-// отправка новых карточек через форму
-const addNewCards = function (evt) {
-  evt.preventDefault();
-  const item = {
-    link: inputPlaceLink.value,
-    name: inputPlaceTitle.value,
-  };
-  formPost.reset();
-  popupClosed(popupPost);
-  renderCard(item, postsContainer);
-};
+export { renderCard };
