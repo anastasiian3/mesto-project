@@ -51,6 +51,13 @@ const nameInput = document.querySelector("#name-input");
 const jobInfo = document.querySelector(".user-profile__description");
 const jobInput = document.querySelector("#profession-input");
 
+//отправка новых карточек через форму
+const inputPlaceTitle = popupPost.querySelector("#place-title");
+const inputPlaceLink = popupPost.querySelector("#place-link");
+
+//переменная для кнопки отправки
+const buttonElement = popupPost.querySelector(".form__button-submit-post");
+
 export {
   initialCards,
   postsContainer,
@@ -71,4 +78,7 @@ export {
   popupImageZoom,
   popupPost,
   popupProfile,
+  inputPlaceTitle,
+  inputPlaceLink,
+  buttonElement,
 };

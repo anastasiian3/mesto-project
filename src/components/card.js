@@ -1,6 +1,6 @@
-import { clickImage } from "./modal.js";
-
 import { postTemplate } from "./data.js";
+
+import { clickImage } from "../index.js";
 
 // функция удаления карточки
 const clickButtonDelete = function (element) {
@@ -36,10 +36,4 @@ const createCard = function (data) {
   return cardElement;
 };
 
-//функция для добавления карточек на страницу
-const renderCard = function (data, container) {
-  const card = createCard(data);
-  container.prepend(card);
-};
-
-export { renderCard };
+export { createCard };

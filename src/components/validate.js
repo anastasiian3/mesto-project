@@ -73,14 +73,12 @@ function disableButton(buttonElement, config) {
   buttonElement.disabled = "disabled";
 }
 
-function hideErrorText() {
+function hideError() {
   const errorTextList = document.querySelectorAll(".form__input-error");
   errorTextList.forEach((error) => {
     error.textContent = "";
   });
-}
 
-function hideErrorLine() {
   const inputList = document.querySelectorAll(".form__input");
   inputList.forEach((inputElement) => {
     inputElement.classList.remove("form__input_type_error");
@@ -92,6 +90,5 @@ export {
   checkInputValidity,
   toggleButtonState,
   disableButton,
-  hideErrorText,
-  hideErrorLine,
+  hideError,
 };

@@ -2,9 +2,13 @@ import "../pages/index.css"; // добавьте импорт главного �
 
 import { openPopup, closePopup } from "./components/modal.js";
 
-import { renderCard } from "./components/card.js";
+import { createCard } from "./components/card.js";
 
-import { disableButton, enableValidation } from "./components/validate.js";
+import {
+  disableButton,
+  enableValidation,
+  hideError,
+} from "./components/validate.js";
 
 import {
   initialCards,
@@ -22,10 +26,17 @@ import {
   nameInput,
   jobInfo,
   jobInput,
+  popupImage,
+  popupImageTitle,
+  popupImageZoom,
+  inputPlaceTitle,
+  inputPlaceLink,
+  buttonElement,
 } from "./components/data.js";
 
 //функция для заполнения попапа профиля данными
 const openProfile = function () {
+  hideError();
   nameInput.value = nameInfo.textContent;
   jobInput.value = jobInfo.textContent;
   openPopup(popupProfile);
@@ -53,9 +64,6 @@ closeImageButton.addEventListener("click", () => closePopup(popupImageZoom));
 // отправка новых карточек через форму
 const addNewCards = function (evt) {
   evt.preventDefault();
-  const inputPlaceTitle = popupPost.querySelector("#place-title");
-  const inputPlaceLink = popupPost.querySelector("#place-link");
-  const buttonElement = popupPost.querySelector(".form__button-submit-post");
   const item = {
     link: inputPlaceLink.value,
     name: inputPlaceTitle.value,
@@ -67,6 +75,12 @@ const addNewCards = function (evt) {
   closePopup(popupPost);
 };
 
+//функция для добавления карточек на страницу
+const renderCard = function (data, container) {
+  const card = createCard(data);
+  container.prepend(card);
+};
+
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
 formName.addEventListener("submit", editProfileInfo);
@@ -75,6 +89,14 @@ formName.addEventListener("submit", editProfileInfo);
 initialCards.forEach(function (item) {
   renderCard(item, postsContainer);
 });
+
+// функция для клика на картинку
+const clickImage = function (data) {
+  popupImage.src = data.link;
+  popupImageTitle.textContent = data.name;
+  popupImage.alt = data.name;
+  openPopup(popupImageZoom);
+};
 
 // валидация форм
 export const validationConfig = {
@@ -87,3 +109,5 @@ export const validationConfig = {
 };
 
 enableValidation(validationConfig);
+
+export { clickImage };
