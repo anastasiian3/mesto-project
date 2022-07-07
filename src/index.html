@@ -21,21 +21,23 @@
     <main class="content">
       <section class="user-profile page__user-profile">
         <div class="user-profile__info">
-          <img
-            src="<%=require('./images/avatar.svg')%>"
-            alt="Аватар пользователя"
-            class="user-profile__photo"
-          />
+          <button class="user-profile__photo-button" type="button">
+            <img
+              src="/"
+              alt="Аватар пользователя"
+              class="user-profile__photo"
+            />
+          </button>
           <div class="user-profile__name-info-container">
             <div class="user-profile__name-change-container">
-              <h1 class="user-profile__name">Жак-Ив Кусто</h1>
+              <h1 class="user-profile__name"></h1>
               <button
                 type="button"
                 aria-label="Изменить имя"
                 class="user-profile__name-change-button"
               ></button>
             </div>
-            <p class="user-profile__description">Исследователь океана</p>
+            <p class="user-profile__description"></p>
           </div>
         </div>
         <button
@@ -164,13 +166,52 @@
         <h2 class="popup__image-title"></h2>
       </div>
     </div>
+    <div class="popup popup_type_avatar">
+      <div class="popup__container popup__container_type_avatar">
+        <button
+          type="button"
+          class="popup__close-button popup__close-button_type_avatar"
+          aria-label="Закрыть окно"
+        ></button>
+        <form
+          action="#"
+          name="form-avatar"
+          class="form form_change-avatar"
+          id="form-avatar"
+          novalidate
+        >
+          <h2 class="form__heading">Обновить аватар</h2>
+          <label class="form__field">
+            <input
+              type="url"
+              class="form__input form__input-avatar"
+              id="avatar-input"
+              name="avatar-input"
+              value=""
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <span class="form__input-error avatar-input-error"></span>
+          </label>
+          <button
+            type="submit"
+            class="form__button-submit form__button-submit-avatar"
+          >
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
     <template id="post-template">
       <li class="photo-card">
         <div class="photo-card__delete-icon"></div>
         <img src="" alt="Фото поста" class="photo-card__image" />
         <div class="photo-card__info">
           <h2 class="photo-card__title"></h2>
-          <button type="button" class="photo-card__like"></button>
+          <div class="photo-card__like-info">
+            <button type="button" class="photo-card__like"></button>
+            <span class="photo-card__like-counter"></span>
+          </div>
         </div>
       </li>
     </template>

@@ -21,7 +21,7 @@ function keyEscHandler(evt) {
 //функция для закрытия попапов кликом на оверлей
 const popups = document.querySelectorAll(".popup");
 popups.forEach((item) => {
-  item.addEventListener("click", (evt) => {
+  item.addEventListener("mousedown", (evt) => {
     if (evt.target.closest(".popup__container")) {
       return;
     }

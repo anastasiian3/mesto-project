@@ -1,0 +1,22 @@
+.user-profile__photo-button {
+  position: relative;
+  margin-right: 30px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 0;
+  transition: background-color 0.5s ease;
+}
+
+.user-profile__photo-button:hover {
+  background-image: url(../../../images/editavatar.svg);
+  background-color: rgba(0, 0, 0, 0.8);
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .user-profile__photo-button {
+    margin: 0 auto 26px;
+  }
+}

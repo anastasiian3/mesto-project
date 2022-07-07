@@ -25,6 +25,7 @@ const postTemplate = document.querySelector("#post-template");
 const popupProfile = document.querySelector(".popup_type_name");
 const popupPost = document.querySelector(".popup_type_post");
 const popupImageZoom = document.querySelector(".popup_type_image");
+const popupAvatar = document.querySelector(".popup_type_avatar");
 
 // переменные для открытия попапа
 const profile = document.querySelector(".user-profile");
@@ -55,8 +56,21 @@ const jobInput = document.querySelector("#profession-input");
 const inputPlaceTitle = popupPost.querySelector("#place-title");
 const inputPlaceLink = popupPost.querySelector("#place-link");
 
-//переменная для кнопки отправки
-const buttonElement = popupPost.querySelector(".form__button-submit-post");
+//переменная для кнопки отправки поста
+/*const buttonElement = document.querySelector(".form__button-submit");*/
+//кнопки в попапах
+const buttonNamePopup = document.querySelector(".form__button-submit-name");
+const buttonPostPopup = document.querySelector(".form__button-submit-post");
+const buttonAvatarPopup = document.querySelector(".form__button-submit-avatar");
+
+//переменные для изменения аватара
+const formAvatar = document.querySelector("#form-avatar");
+const userAvatar = document.querySelector(".user-profile__photo");
+const userAvatarButton = document.querySelector(".user-profile__photo-button");
+const avatarInput = document.querySelector("#avatar-input");
+const closeAvatarButton = document.querySelector(
+  ".popup__close-button_type_avatar"
+);
 
 export {
   initialCards,
@@ -80,5 +94,13 @@ export {
   popupProfile,
   inputPlaceTitle,
   inputPlaceLink,
-  buttonElement,
+  userAvatar,
+  avatarInput,
+  popupAvatar,
+  closeAvatarButton,
+  formAvatar,
+  userAvatarButton,
+  buttonAvatarPopup,
+  buttonNamePopup,
+  buttonPostPopup,
 };
