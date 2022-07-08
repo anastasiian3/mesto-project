@@ -18,14 +18,14 @@ function getCards() {
 }
 
 //получение информации о пользователе
-function getUserInfo() {
+function getUser() {
   return fetch(`${config.url}/users/me`, {
     headers: config.headers,
   }).then(onResponce);
 }
 
 function getAllInfo() {
-  return Promise.all([getCards(), getUserInfo()]);
+  return Promise.all([getCards(), getUser()]);
 }
 
 //редактирование информации о пользователе
@@ -75,7 +75,6 @@ export {
   getCards,
   addCard,
   removeCard,
-  getUserInfo,
   editProfile,
   editUserAvatar,
   getAllInfo,

@@ -19,7 +19,6 @@ const initialCards = [
 //переменные для работы card js
 const postsContainer = document.querySelector(".photo-grid__elements");
 const formPost = document.querySelector(".form_add-post");
-const postTemplate = document.querySelector("#post-template");
 
 // переменные для различных попапов
 const popupProfile = document.querySelector(".popup_type_name");
@@ -76,7 +75,6 @@ export {
   initialCards,
   postsContainer,
   formPost,
-  postTemplate,
   openButtonProfile,
   newPostButton,
   closeProfileButton,

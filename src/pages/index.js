@@ -1,18 +1,18 @@
-import "../pages/index.css"; // добавьте импорт главного файла стилей
+import "./index.css"; // добавьте импорт главного файла стилей
 
-import { openPopup, closePopup } from "./components/modal.js";
+import { openPopup, closePopup } from "../components/modal.js";
 
 import {
   createCard,
   updateLikeState,
   clickButtonDelete,
-} from "./components/card.js";
+} from "../components/card.js";
 
 import {
   disableButton,
   enableValidation,
   hideError,
-} from "./components/validate.js";
+} from "../components/validate.js";
 
 import {
   postsContainer,
@@ -43,34 +43,45 @@ import {
   buttonAvatarPopup,
   buttonPostPopup,
   buttonNamePopup,
-} from "./components/data.js";
+} from "../utils/data.js";
 
 import {
   addCard,
-  getUserInfo,
   editProfile,
   editUserAvatar,
   getAllInfo,
   changeLikeStatus,
   removeCard,
-} from "./components/api.js";
+} from "../components/api.js";
 
-import { renderLoading } from "./components/utils.js";
+import { renderLoading } from "../utils/utils.js";
+
+import { validationConfig } from "../utils/constants.js";
 
 let userId;
 
-getAllInfo().then(([cards, user]) => {
+const getUserInfo = (user) => {
   //получение данных пользователя
   nameInfo.textContent = user.name;
   jobInfo.textContent = user.about;
   userAvatar.src = user.avatar;
   userId = user._id;
+};
+
+getAllInfo().then(([cards, user]) => {
+  //функция для получения данных пользователя
+  getUserInfo(user);
 
   // получение карточек с сервера
   cards.reverse().forEach((data) => {
-    renderCard(data, postsContainer, userId);
+    renderCard(data, postsContainer, userId, clickImage);
   });
 });
+
+const setUserInfo = () => {
+  nameInput.value = nameInfo.textContent;
+  jobInput.value = jobInfo.textContent;
+};
 
 const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
   changeLikeStatus(cardId, isLiked)
@@ -98,34 +109,16 @@ const handleDeleteCard = (cardElement, cardId) => {
 //функция для заполнения попапа профиля данными
 const openProfile = function () {
   hideError();
-  getUserInfo()
-    .then((dataFromServer) => {
-      nameInput.value = dataFromServer.name;
-      jobInput.value = dataFromServer.about;
-      disableButton(buttonNamePopup, validationConfig);
-      openPopup(popupProfile);
-    })
-    .catch((err) => {
-      console.log(
-        `Что-то не так! Ошибка при открытии попапа редактирования данных пользователя: ${err}`
-      );
-    });
+  setUserInfo();
+  disableButton(buttonNamePopup, validationConfig);
+  openPopup(popupProfile);
 };
 
 //открытие попапа для изменения аватара
 const openAvatarPopup = function () {
   hideError();
-  getUserInfo()
-    .then((dataFromServer) => {
-      avatarInput.value = dataFromServer.avatar;
-      openPopup(popupAvatar);
-      disableButton(buttonAvatarPopup, validationConfig);
-    })
-    .catch((err) => {
-      console.log(
-        `Что-то не так! Ошибка при открытии попапа изменения аватара: ${err}`
-      );
-    });
+  openPopup(popupAvatar);
+  disableButton(buttonAvatarPopup, validationConfig);
 };
 
 // функция для редактирования информации в профиле
@@ -134,8 +127,7 @@ function handleProfileChanges(e) {
   renderLoading(buttonNamePopup, true);
   editProfile({ name: nameInput.value, about: jobInput.value })
     .then((dataFromServer) => {
-      nameInfo.textContent = nameInput.value;
-      jobInfo.textContent = jobInput.value;
+      getUserInfo(dataFromServer);
       console.log(
         `Профиль успешно обновлен! Имя пользователя: ${dataFromServer.name}, профессия: ${dataFromServer.about}`
       );
@@ -199,7 +191,7 @@ const addNewCards = function (evt) {
 
   addCard({ name: inputPlaceTitle.value, link: inputPlaceLink.value })
     .then((dataFromServer) => {
-      renderCard(dataFromServer, postsContainer, userId);
+      renderCard(dataFromServer, postsContainer, userId, clickImage);
       console.log(
         `Пост добавлен! Место: ${dataFromServer.name}, ссылка на фото места: ${dataFromServer.link}`
       );
@@ -216,12 +208,15 @@ const addNewCards = function (evt) {
 };
 
 //функция для добавления карточек на страницу
-const renderCard = function (data, container, userId) {
+const renderCard = function (data, container, userId, clickImage) {
+  const postTemplate = document.querySelector("#post-template");
   const card = createCard(
     data,
     userId,
     handleChangeLikeStatus,
-    handleDeleteCard
+    handleDeleteCard,
+    clickImage,
+    postTemplate
   );
   container.prepend(card);
 };
@@ -239,16 +234,4 @@ const clickImage = function (data) {
   openPopup(popupImageZoom);
 };
 
-// валидация форм
-export const validationConfig = {
-  formSelector: ".form",
-  inputSelector: ".form__input",
-  submitButtonSelector: ".form__button-submit",
-  inactiveButtonClass: "form__button-submit_inactive",
-  inputErrorClass: "form__input_type_error",
-  errorClass: "form__input-error_active",
-};
-
 enableValidation(validationConfig);
-
-export { clickImage };

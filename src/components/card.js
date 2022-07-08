@@ -1,13 +1,9 @@
-import { postTemplate } from "./data.js";
-
-import { clickImage } from "../index.js";
-
 // функция удаления карточки
 const clickButtonDelete = function (element) {
   element.remove();
   element = null;
 };
-
+//функция проверки того, лайкнута ли карточка
 const isLiked = (likesArray, userId) => {
   return Boolean(
     likesArray.find((likeObj) => {
@@ -15,7 +11,7 @@ const isLiked = (likesArray, userId) => {
     })
   );
 };
-
+//функция обновления состояния лайка
 const updateLikeState = (cardElement, likesArray, userId) => {
   const likeButton = cardElement.querySelector(".photo-card__like");
   const likeCounter = cardElement.querySelector(".photo-card__like-counter");
@@ -33,7 +29,9 @@ const createCard = function (
   data,
   userId,
   handleChangeLikeStatus,
-  handleDeleteCard
+  handleDeleteCard,
+  clickImage,
+  postTemplate
 ) {
   const cardElement = postTemplate.content
     .cloneNode(true)
@@ -48,11 +46,11 @@ const createCard = function (
   cardImage.alt = data.name;
 
   updateLikeState(cardElement, data.likes, userId);
-
+  //удаление иконки удаления, если карточка чужая
   if (data.owner._id !== userId) {
     resetButton.remove();
   }
-
+  //удаление карточки
   resetButton.addEventListener("click", () =>
     handleDeleteCard(cardElement, data._id)
   );
