@@ -60,7 +60,7 @@ import { validationConfig } from "../utils/constants.js";
 
 let userId;
 
-const getUserInfo = (user) => {
+const setUserInfo = (user) => {
   //получение данных пользователя
   nameInfo.textContent = user.name;
   jobInfo.textContent = user.about;
@@ -70,7 +70,7 @@ const getUserInfo = (user) => {
 
 getAllInfo().then(([cards, user]) => {
   //функция для получения данных пользователя
-  getUserInfo(user);
+  setUserInfo(user);
 
   // получение карточек с сервера
   cards.reverse().forEach((data) => {
@@ -78,7 +78,7 @@ getAllInfo().then(([cards, user]) => {
   });
 });
 
-const setUserInfo = () => {
+const fillInEditProfileFormInputs = () => {
   nameInput.value = nameInfo.textContent;
   jobInput.value = jobInfo.textContent;
 };
@@ -109,7 +109,7 @@ const handleDeleteCard = (cardElement, cardId) => {
 //функция для заполнения попапа профиля данными
 const openProfile = function () {
   hideError();
-  setUserInfo();
+  fillInEditProfileFormInputs();
   disableButton(buttonNamePopup, validationConfig);
   openPopup(popupProfile);
 };
@@ -127,7 +127,7 @@ function handleProfileChanges(e) {
   renderLoading(buttonNamePopup, true);
   editProfile({ name: nameInput.value, about: jobInput.value })
     .then((dataFromServer) => {
-      getUserInfo(dataFromServer);
+      setUserInfo(dataFromServer);
       console.log(
         `Профиль успешно обновлен! Имя пользователя: ${dataFromServer.name}, профессия: ${dataFromServer.about}`
       );
@@ -157,6 +157,7 @@ function changeUserAvatar(e) {
       );
     })
     .then(() => {
+      formAvatar.reset();
       closePopup(popupAvatar);
     })
     .catch((err) => {
@@ -207,9 +208,10 @@ const addNewCards = function (evt) {
     });
 };
 
+//переменная для темплейта карточки
+const postTemplate = document.querySelector("#post-template");
 //функция для добавления карточек на страницу
 const renderCard = function (data, container, userId, clickImage) {
-  const postTemplate = document.querySelector("#post-template");
   const card = createCard(
     data,
     userId,

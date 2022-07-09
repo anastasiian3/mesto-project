@@ -55,8 +55,6 @@ const jobInput = document.querySelector("#profession-input");
 const inputPlaceTitle = popupPost.querySelector("#place-title");
 const inputPlaceLink = popupPost.querySelector("#place-link");
 
-//переменная для кнопки отправки поста
-/*const buttonElement = document.querySelector(".form__button-submit");*/
 //кнопки в попапах
 const buttonNamePopup = document.querySelector(".form__button-submit-name");
 const buttonPostPopup = document.querySelector(".form__button-submit-post");
