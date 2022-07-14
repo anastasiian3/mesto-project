@@ -20,23 +20,55 @@ class Card {
     //листенеры
     //this._setEventListeners();
 
-    /*     this._element.querySelector('.card__image').style.backgroundImage = `url(${this._image})`;
-    this._element.querySelector('.card__title').textContent = this._title;
-    this._element.querySelector('.card__info').textContent = this._description; */
-    //отрисовка тайтла
-    //отрисовка картинки
-    //отрисовка альта
+    //отрисовка фото
+    this._element.querySelector(".photo-card__image").src = this._link;
+    // отрисовка названия
+    this._element.querySelector(".photo-card__title").textContent = this._name;
+    // добавление alt
+    this._element.querySelector(".photo-card__image").alt = this._name;
+
+    // const likeCounter = cardElement.querySelector(".photo-card__like-counter");
+    likeCounter.textContent = likesArray.length;
 
     return this._element;
   }
+
   //лайки карточки
   _handleChangeLikeCard() {}
+
   //удаление карточки
-  _handleRemoveCard() {}
+  _handleRemoveCard() {
+    this._element.remove();
+  }
+
   //клик для зума карточки
-  _handleClickCard() {}
+  _handleClickCard() {
+    this._element.querySelector(".popup__image").src = this._link;
+    this._element.querySelector(".popup__image-title").textContent = this._name;
+    this._element.querySelector(".popup__image").alt = this._name;
+    //openPopup(popupImageZoom);
+  }
+
   //вешаем слушатели
   _setEventListeners() {
+    this._element
+      .querySelector(".photo-card__image")
+      .addEventListener("click", () => {
+        this._handleClickCard();
+      });
+
+    this._element
+      .querySelector(".photo-card__delete-icon")
+      .addEventListener("click", () => {
+        this._handleRemoveCard();
+      });
+
+    this._element
+      .querySelector(".photo-card__like")
+      .addEventListener("click", () => {
+        this._handleChangeLikeCard();
+      });
+
     /*     this._element.addEventListener('click', () => {
   //нужно будет описывать этот метод в попапах
   //заменить на зум
