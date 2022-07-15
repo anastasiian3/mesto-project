@@ -59,18 +59,16 @@ export default class Card {
         this._clickImage;
       });
 
-    if (this._selector === "#post-template-user") {
-      this._element
-        .querySelector(".photo-card__delete-icon")
-        .addEventListener("click", () => {
-          this._handleDeleteCard;
-        });
-    }
-
     this._element
       .querySelector(".photo-card__like")
       .addEventListener("click", () => {
         this._handleChangeLikeStatus;
       });
+
+    if (this._selector === "#post-template-user") {
+      this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
+        this._handleDeleteCard;
+      });
+    } else { }
   }
 }
