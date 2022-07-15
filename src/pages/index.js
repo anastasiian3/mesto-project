@@ -155,6 +155,7 @@ const handleDeleteCard = (cardElement, cardId) => {
 
 //функция для заполнения попапа профиля данными
 const profilePopup = new Popup(popupProfile);
+profilePopup.setEventListeners();
 
 // const openProfile = function () {
 //   hideError();
@@ -221,7 +222,7 @@ function changeUserAvatar(e) {
 
 // закрытие и открытие попапа редактирования профиля по кнопке
 openButtonProfile.addEventListener("click", () => profilePopup.open());
-closeProfileButton.addEventListener("click", () => profilePopup.close());
+// closeProfileButton.addEventListener("click", () => profilePopup.close());
 
 //открытие и закрытие попапа аватара
 userAvatarButton.addEventListener("click", openAvatarPopup);
