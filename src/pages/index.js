@@ -78,21 +78,30 @@ const api = new Api({
 import { renderLoading } from "../utils/utils.js";
 
 import { validationConfig } from "../utils/constants.js";
+import UserInfo from "../components/UserInfo.js";
 
 let userId;
 
-const setUserInfo = (user) => {
-  //получение данных пользователя
-  nameInfo.textContent = user.name;
-  jobInfo.textContent = user.about;
-  userAvatar.src = user.avatar;
-  userId = user._id;
-};
+// const setUserInfo = (user) => {
+//   //получение данных пользователя
+//   nameInfo.textContent = user.name;
+//   jobInfo.textContent = user.about;
+//   userAvatar.src = user.avatar;
+//   userId = user._id;
+// };
+
+const profileInfo = new UserInfo({
+  name: nameInfo,
+  about: jobInfo,
+  avatar: userAvatar,
+  userId,
+});
 
 api.getAllInfo()
-  .then(([cards, user]) => {
+  .then(([cards, userData]) => {
     //функция для получения данных пользователя
-    setUserInfo(user);
+    // setUserInfo(userData);
+    profileInfo.setUserInfo(userData);
 
     // получение карточек с сервера
     // cards.reverse().forEach((data) => {

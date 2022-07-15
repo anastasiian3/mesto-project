@@ -1,22 +1,32 @@
 export default class UserInfo {
-  constructor(name, job, avatar, userId) {
+  constructor({ name, about, avatar, userId }) {
     this._name = name;
-    this._job = job;
+    this._about = about;
     this._avatar = avatar;
     this._userId = userId;
   }
 
   getUserInfo() {
-
+    return {
+      name: this._name.textContent,
+      about: this._about.textContent,
+      // avatar: this._avatar.src,
+    };
   }
 
-  setUserInfo() {
-    nameInfo.textContent = this._name;
-    jobInfo.textContent = this._about;
-    userAvatar.src = this._avatar;
-    userId = this._userId;
+  setUserInfo(data) {
+    this._name.textContent = data.name;
+    this._about.textContent = data.about;
+    this._avatar.src = data.avatar;
   }
 }
+
+// const setUserInfo = ({ userName, userDescription, userAvatar }) => {
+//   if (userName) profileTitle.textContent = userName;
+//   if (userDescription) profileDescription.textContent = userDescription;
+//   if (userAvatar) profileAvatar.src = userAvatar;
+// })`;
+// };
 
 // const setUserInfo = (user) => {
 //   //получение данных пользователя
@@ -26,3 +36,7 @@ export default class UserInfo {
 //   userId = user._id;
 // };
 
+// const fillInEditProfileFormInputs = () => {
+//   nameInput.value = nameInfo.textContent;
+//   jobInput.value = jobInfo.textContent;
+// };;
