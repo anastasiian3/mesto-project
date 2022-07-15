@@ -1,3 +1,4 @@
+// Здесь был Коля) 
 export default class Api {
   constructor({ url, headers }) {
     // тело конструктора
