@@ -57,6 +57,7 @@ import {
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card";
+import Popup from "../components/Popup";
 
 const api = new Api({
   url: "https://nomoreparties.co/v1/plus-cohort-13",
@@ -94,31 +95,35 @@ const profileInfo = new UserInfo({
   name: nameInfo,
   about: jobInfo,
   avatar: userAvatar,
-  userId,
 });
+console.log(profileInfo);
 
-api.getAllInfo()
-  .then(([cards, userData]) => {
-    //функция для получения данных пользователя
-    // setUserInfo(userData);
-    profileInfo.setUserInfo(userData);
+api.getAllInfo().then(([cards, userData]) => {
+  //функция для получения данных пользователя
+  profileInfo.setUserInfo(userData);
+  userId = userData._id;
 
-    // получение карточек с сервера
-    // cards.reverse().forEach((data) => {
-    //   renderCard(data, postsContainer, userId, clickImage);
-    // });
+  // получение карточек с сервера
+  // cards.reverse().forEach((data) => {
+  //   renderCard(data, postsContainer, userId, clickImage);
+  // });
 
-    const cardList = new Section(
-      {
-        items: cards,
-        renderer: (item) => {
-          const card = userId === item.owner._id ? new Card(item, '#post-template-user') : new Card(item, '#post-template');
-          const cardElement = card.generate();
-          cardList.addCard(cardElement);
-        }
-      }, postsContainer);
-    cardList.renderItems();
-  });
+  const cardList = new Section(
+    {
+      items: cards,
+      renderer: (item) => {
+        const card =
+          userId === item.owner._id
+            ? new Card(item, "#post-template-user")
+            : new Card(item, "#post-template");
+        const cardElement = card.generate();
+        cardList.addItem(cardElement);
+      },
+    },
+    postsContainer
+  );
+  cardList.renderItems();
+});
 
 const fillInEditProfileFormInputs = () => {
   nameInput.value = nameInfo.textContent;
@@ -149,12 +154,14 @@ const handleDeleteCard = (cardElement, cardId) => {
 };
 
 //функция для заполнения попапа профиля данными
-const openProfile = function () {
-  hideError();
-  fillInEditProfileFormInputs();
-  disableButton(buttonNamePopup, validationConfig);
-  openPopup(popupProfile);
-};
+const profilePopup = new Popup(popupProfile);
+
+// const openProfile = function () {
+//   hideError();
+//   fillInEditProfileFormInputs();
+//   disableButton(buttonNamePopup, validationConfig);
+//   openPopup(popupProfile);
+// };
 
 //открытие попапа для изменения аватара
 const openAvatarPopup = function () {
@@ -213,8 +220,8 @@ function changeUserAvatar(e) {
 }
 
 // закрытие и открытие попапа редактирования профиля по кнопке
-openButtonProfile.addEventListener("click", openProfile);
-closeProfileButton.addEventListener("click", () => closePopup(popupProfile));
+openButtonProfile.addEventListener("click", () => profilePopup.open());
+closeProfileButton.addEventListener("click", () => profilePopup.close());
 
 //открытие и закрытие попапа аватара
 userAvatarButton.addEventListener("click", openAvatarPopup);
