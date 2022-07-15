@@ -1,73 +1,76 @@
-// функция удаления карточки
-const clickButtonDelete = function (element) {
-  element.remove();
-  element = null;
-};
-//функция проверки того, лайкнута ли карточка
-const isLiked = (likesArray, userId) => {
-  return Boolean(
-    likesArray.find((likeObj) => {
-      return likeObj._id === userId;
-    })
-  );
-};
-//функция обновления состояния лайка
-const updateLikeState = (cardElement, likesArray, userId) => {
-  const likeButton = cardElement.querySelector(".photo-card__like");
-  const likeCounter = cardElement.querySelector(".photo-card__like-counter");
-  likeCounter.textContent = likesArray.length;
-
-  if (isLiked(likesArray, userId)) {
-    likeButton.classList.add("photo-card__like_active");
-  } else {
-    likeButton.classList.remove("photo-card__like_active");
+export default class Card {
+  constructor({ name, link, userId, handleChangeLikeStatus, handleDeleteCard, clickImage }, selector) {
+    this._name = name;
+    this._link = link;
+    this._selector = selector;
+    this._userId = userId;
+    this._handleChangeLikeStatus = handleChangeLikeStatus;
+    this._handleDeleteCard = handleDeleteCard;
+    this._clickImage = clickImage;
   }
-};
 
-//функция для создания новой карточки
-const createCard = function (
-  data,
-  userId,
-  handleChangeLikeStatus,
-  handleDeleteCard,
-  clickImage,
-  postTemplate
-) {
-  const cardElement = postTemplate.content
-    .cloneNode(true)
-    .querySelector(".photo-card");
-  const cardImage = cardElement.querySelector(".photo-card__image");
-  const cardTitle = cardElement.querySelector(".photo-card__title");
-  const resetButton = cardElement.querySelector(".photo-card__delete-icon");
-  const likeButton = cardElement.querySelector(".photo-card__like");
+  _getElement() {
+    const cardElement = document
+      .querySelector(this._selector)
+      .content.querySelector(".photo-card")
+      .cloneNode(true);
 
-  cardImage.src = data.link;
-  cardTitle.textContent = data.name;
-  cardImage.alt = data.name;
-
-  updateLikeState(cardElement, data.likes, userId);
-  //удаление иконки удаления, если карточка чужая
-  if (data.owner._id !== userId) {
-    resetButton.remove();
+    return cardElement;
   }
-  //удаление карточки
-  resetButton.addEventListener("click", () =>
-    handleDeleteCard(cardElement, data._id)
-  );
 
-  //слушатель события клика по лайку
-  likeButton.addEventListener("click", () => {
-    handleChangeLikeStatus(
-      cardElement,
-      data._id,
-      likeButton.classList.contains("photo-card__like_active")
-    );
-  });
+  generate() {
+    this._element = this._getElement();
 
-  //попап с картинкой
-  cardImage.addEventListener("click", () => clickImage(data));
+    this._setEventListeners();
+    //отрисовка фото
+    this._element.querySelector(".photo-card__image").src = this._link;
+    // отрисовка названия
+    this._element.querySelector(".photo-card__title").textContent = this._name;
+    // добавление alt
+    this._element.querySelector(".photo-card__image").alt = this._name;
 
-  return cardElement;
-};
+    // const likeCounter = cardElement.querySelector(".photo-card__like-counter");
+    // likeCounter.textContent = likesArray.length;
 
-export { createCard, isLiked, updateLikeState, clickButtonDelete };
+    return this._element;
+  }
+
+  // //лайки карточки
+  // _handleChangeLikeCard() { }
+
+  // //удаление карточки
+  // _handleRemoveCard() {
+  //   this._element.remove();
+  // }
+
+  // //клик для зума карточки
+  // _handleClickCard() {
+  //   this._element.querySelector(".popup__image").src = this._link;
+  //   this._element.querySelector(".popup__image-title").textContent = this._name;
+  //   this._element.querySelector(".popup__image").alt = this._name;
+  //   //openPopup(popupImageZoom);
+  // }
+
+  //вешаем слушатели
+  _setEventListeners() {
+    this._element
+      .querySelector(".photo-card__image")
+      .addEventListener("click", () => {
+        this._clickImage;
+      });
+
+    if (this._selector === "#post-template-user") {
+      this._element
+        .querySelector(".photo-card__delete-icon")
+        .addEventListener("click", () => {
+          this._handleDeleteCard;
+        });
+    }
+
+    this._element
+      .querySelector(".photo-card__like")
+      .addEventListener("click", () => {
+        this._handleChangeLikeStatus;
+      });
+  }
+}

@@ -6,7 +6,7 @@ import {
   createCard,
   updateLikeState,
   clickButtonDelete,
-} from "../components/card.js";
+} from "../components/old_card.js";
 
 import {
   disableButton,
@@ -56,6 +56,7 @@ import {
 
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
+import Card from "../components/Card";
 
 const api = new Api({
   url: "https://nomoreparties.co/v1/plus-cohort-13",
@@ -88,42 +89,27 @@ const setUserInfo = (user) => {
   userId = user._id;
 };
 
-api.getAllInfo().then(([cards, user]) => {
-  //функция для получения данных пользователя
-  setUserInfo(user);
+api.getAllInfo()
+  .then(([cards, user]) => {
+    //функция для получения данных пользователя
+    setUserInfo(user);
 
-  // получение карточек с сервера
-  cards.reverse().forEach((data) => {
-    renderCard(data, postsContainer, userId, clickImage);
+    // получение карточек с сервера
+    // cards.reverse().forEach((data) => {
+    //   renderCard(data, postsContainer, userId, clickImage);
+    // });
+
+    const cardList = new Section(
+      {
+        items: cards,
+        renderer: (item) => {
+          const card = userId === item.owner._id ? new Card(item, '#post-template-user') : new Card(item, '#post-template');
+          const cardElement = card.generate();
+          cardList.addCard(cardElement);
+        }
+      }, postsContainer);
+    cardList.renderItems();
   });
-
-  const cardList = new Section(
-    {
-      items: cards,
-      renderer: (item) => {
-        // мысли
-        cardList.addCard(createCard(item));
-      },
-    },
-    postsContainer
-  );
-});
-//тренажер
-// const defaultCardList = new Section({
-//   data: items,
-//   renderer: (item) => {
-//     const card = new DefaultCard(item, '.default-card');
-//     const cardElement = card.generate();
-//     defaultCardList.setItem(cardElement);
-//   }
-// }, cardListSelector);
-
-// const card = new DefaultCard(item, '.default-card');
-// 1 card = new Card({name, link}, selector)
-// const cardElement = card.generate();
-// 2 cardElement = card.generate();
-// defaultCardList.setItem(cardElement);
-// 3 cardList.addCard(cardElement);
 
 const fillInEditProfileFormInputs = () => {
   nameInput.value = nameInfo.textContent;
