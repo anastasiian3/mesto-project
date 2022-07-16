@@ -68,15 +68,16 @@ export default class FormValidator {
     this._buttonElement.classList.add(this._validationConfig.inactiveButtonClass);
     this._buttonElement.disabled = "disabled";
   }
+  // todo Подумать над реализацией
+  hideError() {
+    const errorTextList = document.querySelectorAll(".form__input-error");
+    errorTextList.forEach((error) => {
+      error.textContent = "";
+    });
 
-  // function hideError() {
-  //   const errorTextList = document.querySelectorAll(".form__input-error");
-  //   errorTextList.forEach((error) => {
-  //     error.textContent = "";
-  //   });
-
-  //   const inputList = document.querySelectorAll(".form__input");
-  //   inputList.forEach((inputElement) => {
-  //     inputElement.classList.remove("form__input_type_error");
-  //   });
+    this._inputList = document.querySelectorAll(".form__input");
+    this._inputList.forEach((inputElement) => {
+      inputElement.classList.remove(this._validationConfig.inputErrorClass);
+    });
+  }
 }

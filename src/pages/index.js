@@ -62,6 +62,8 @@ import FormValidator from "../components/FormValidator.js";
 
 const editProfileValidation = new FormValidator(validationConfig, formName);
 editProfileValidation.enableValidation();
+// не работает 
+editProfileValidation.hideError();
 
 const api = new Api({
   url: "https://nomoreparties.co/v1/plus-cohort-13",
@@ -161,6 +163,7 @@ const handleDeleteCard = (cardElement, cardId) => {
 // todo А если передавать универсальный селектор попапа? Будут открывать и закрывать все попапы
 const profilePopup = new Popup(popupProfile);
 profilePopup.setEventListeners();
+
 
 // const openProfile = function () {
 //   hideError();
