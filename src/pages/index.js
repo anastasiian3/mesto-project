@@ -1,12 +1,11 @@
 import "./index.css"; // добавьте импорт главного файла стилей
 
-import { openPopup, closePopup } from "../components/modal.js";
+// import { openPopup, closePopup } from "../components/modal.js";
 
-import {
-  //createCard,
-  updateLikeState,
-  clickButtonDelete,
-} from "../components/old_card.js";
+// import //createCard,
+// // updateLikeState,
+// //clickButtonDelete,
+// "../components/old_card.js";
 
 // import {
 //   disableButton,
@@ -60,12 +59,17 @@ import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import { renderLoading } from "../utils/utils.js";
+import { validationConfig } from "../utils/constants.js";
+import UserInfo from "../components/UserInfo.js";
 
+// создание валидации для формы пользователя
 const editProfileValidation = new FormValidator(validationConfig, formName);
 editProfileValidation.enableValidation();
 // не работает
 editProfileValidation.hideError();
 
+// экземпляр класса апи
 const api = new Api({
   url: "https://nomoreparties.co/v1/plus-cohort-13",
   headers: {
@@ -73,11 +77,6 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-import { renderLoading } from "../utils/utils.js";
-
-import { validationConfig } from "../utils/constants.js";
-import UserInfo from "../components/UserInfo.js";
 
 let userId;
 
@@ -98,52 +97,71 @@ const profileInfo = new UserInfo({
 const popupWithImage = new PopupWithImage(popupImageZoom);
 popupWithImage.setEventListeners();
 
-const createCard = ({ name, link, userId }, selector) => {
-  return new Card(
-    {
-      name,
-      link,
-      userId,
-      handleClickLike: () => { console.log("Лайк"); },
-      handleClickDeleteCard: (cardId) => {
-        console.log("Карточка удалена");
-        // todo Получить ид
-        // api.removeCard(cardId)
-        //   .then((dataFromServer) => {
-        //     clickButtonDelete(cardElement);
-        //     console.log(`Внимание! ${dataFromServer.message}`);
-        //   })
-        //   .catch((err) => {
-        //     console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
-        //   });
-      },
-      handleclickImage: () => popupWithImage.open({ link, name }),
-    },
-    selector
-  );
-};
+// const createCard = ({ name, link, _id, likes, userId }, selector) => {
+//   return new Card(
+//     {
+//       name,
+//       link,
+//       _id,
+//       likes,
+//       userId,
+//       handleClickLike: () => {
+//         console.log("Лайк");
+//       },
+//       handleClickDeleteCard: (cardId) => {
+//         console.log("Карточка удалена");
+//         // todo Получить ид
+//         console.log("_id: ", _id);
+//         console.log("likes: ", likes);
+//         api
+//           .removeCard(cardId)
+//           .then((dataFromServer) => {
+//             //clickButtonDelete(cardElement);
+//             // const cardElement = document.querySelector(${#_id})
+//             handleDeleteCard(cardElement, _id);
+//             console.log(`Внимание! ${dataFromServer.message}`);
+//           })
+//           .catch((err) => {
+//             console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
+//           });
+//       },
+//       handleclickImage: () => popupWithImage.open({ link, name }),
+//     },
+//     selector
+//   );
+// };
 
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
   userId = userData._id;
-  console.log(userData);
 
-  // получение карточек с сервера
-  // cards.reverse().forEach((data) => {
-  //   renderCard(data, postsContainer, userId, clickImage);
-  // });
+  // const cardList = new Section(
+  //   {
+  //     items: cards,
+  //     renderer: (item) => {
+  //       const card =
+  //         userId === item.owner._id
+  //           ? createCard({ ...item }, "#post-template-user")
+  //           : createCard({ ...item }, "#post-template");
+  //       //console.log("item.owner._id: ", item.owner._id);
+  //       //console.log(item);
+  //       const cardElement = card.generate();
+  //       cardList.addItem(cardElement);
+  //     },
+  //   },
+  //   postsContainer
+  // );
 
   const cardList = new Section(
     {
       items: cards,
       renderer: (item) => {
-        console.log(item);
-        const card =
-          userId === item.owner._id
-            ? createCard({ ...item }, "#post-template-user")
-            : createCard({ ...item }, "#post-template");
-        const cardElement = card.generate();
+        const card = new Card(item, "#post-template");
+        //: createCard({ ...item }, "#post-template");
+        //console.log("item.owner._id: ", item.owner._id);
+        //console.log(item);
+        const cardElement = card.generate(userId);
         cardList.addItem(cardElement);
       },
     },
@@ -151,12 +169,12 @@ api.getAllInfo().then(([cards, userData]) => {
   );
   cardList.renderItems();
 });
-
+//заполнение формы профиля данными со страницы
 const fillInEditProfileFormInputs = () => {
   nameInput.value = nameInfo.textContent;
   jobInput.value = jobInfo.textContent;
 };
-
+//изменение лайков и связь с сервером
 const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
   changeLikeStatus(cardId, isLiked)
     .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, userId))
@@ -164,7 +182,12 @@ const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
       console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
     });
 };
-
+//удаление элемента из дом
+const clickButtonDelete = function (element) {
+  element.remove();
+  element = null;
+};
+//удаление, связь с сервером
 const handleDeleteCard = (cardElement, cardId) => {
   removeCard(cardId)
     .then((dataFromServer) => {
@@ -243,11 +266,10 @@ openButtonProfile.addEventListener("click", () => {
   // profileInfo.getUserInfo();
   // nameInput.value = profileInfo.name;
   // jobInput.value = jobInfo.textContent;
-  //fillInEditProfileFormInputs();
+  fillInEditProfileFormInputs();
   editProfileValidation.hideError();
 });
 // closeProfileButton.addEventListener("click", () => profilePopup.close());
-
 
 //открытие и закрытие попапа аватара
 userAvatarButton.addEventListener("click", openAvatarPopup);
