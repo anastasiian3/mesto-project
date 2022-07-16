@@ -104,8 +104,19 @@ const createCard = ({ name, link, userId }, selector) => {
       name,
       link,
       userId,
-      handleClickLike: () => {},
-      handleClickDeleteCard: () => {},
+      handleClickLike: () => { console.log("Лайк"); },
+      handleClickDeleteCard: (cardId) => {
+        console.log("Карточка удалена");
+        // todo Получить ид
+        // api.removeCard(cardId)
+        //   .then((dataFromServer) => {
+        //     clickButtonDelete(cardElement);
+        //     console.log(`Внимание! ${dataFromServer.message}`);
+        //   })
+        //   .catch((err) => {
+        //     console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
+        //   });
+      },
       handleclickImage: () => popupWithImage.open({ link, name }),
     },
     selector
@@ -116,6 +127,7 @@ api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
   userId = userData._id;
+  console.log(userData);
 
   // получение карточек с сервера
   // cards.reverse().forEach((data) => {
@@ -126,6 +138,7 @@ api.getAllInfo().then(([cards, userData]) => {
     {
       items: cards,
       renderer: (item) => {
+        console.log(item);
         const card =
           userId === item.owner._id
             ? createCard({ ...item }, "#post-template-user")
@@ -235,7 +248,6 @@ openButtonProfile.addEventListener("click", () => {
 });
 // closeProfileButton.addEventListener("click", () => profilePopup.close());
 
-// пусти в зум!
 
 //открытие и закрытие попапа аватара
 userAvatarButton.addEventListener("click", openAvatarPopup);
@@ -270,12 +282,12 @@ const addNewCards = function (evt) {
 };
 
 //переменная для темплейта карточки
-const postTemplate = document.querySelector("#post-template");
+// const postTemplate = document.querySelector("#post-template");
 //функция для добавления карточек на страницу
-const renderCard = function (data, container, userId, clickImage) {
-  const card = createCard(data, userId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
-  container.prepend(card);
-};
+// const renderCard = function (data, container, userId, clickImage) {
+//   const card = createCard(data, userId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
+//   container.prepend(card);
+// };
 
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
