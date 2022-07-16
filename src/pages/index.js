@@ -8,11 +8,11 @@ import {
   clickButtonDelete,
 } from "../components/old_card.js";
 
-import {
-  disableButton,
-  enableValidation,
-  hideError,
-} from "../components/validate.js";
+// import {
+//   disableButton,
+//   enableValidation,
+//   hideError,
+// } from "../components/validate.js";
 
 import {
   postsContainer,
@@ -56,8 +56,12 @@ import {
 
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
-import Card from "../components/Card";
-import Popup from "../components/Popup";
+import Card from "../components/Card.js";
+import Popup from "../components/Popup.js";
+import FormValidator from "../components/FormValidator.js";
+
+const editProfileValidation = new FormValidator(validationConfig, formName);
+editProfileValidation.enableValidation();
 
 const api = new Api({
   url: "https://nomoreparties.co/v1/plus-cohort-13",
@@ -154,6 +158,7 @@ const handleDeleteCard = (cardElement, cardId) => {
 };
 
 //функция для заполнения попапа профиля данными
+// todo А если передавать универсальный селектор попапа? Будут открывать и закрывать все попапы
 const profilePopup = new Popup(popupProfile);
 profilePopup.setEventListeners();
 
@@ -286,4 +291,4 @@ const clickImage = function (data) {
   openPopup(popupImageZoom);
 };
 
-enableValidation(validationConfig);
+// enableValidation(validationConfig);
