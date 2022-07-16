@@ -3,7 +3,7 @@ import "./index.css"; // добавьте импорт главного файл
 import { openPopup, closePopup } from "../components/modal.js";
 
 import {
-  createCard,
+  //createCard,
   updateLikeState,
   clickButtonDelete,
 } from "../components/old_card.js";
@@ -59,10 +59,11 @@ import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import FormValidator from "../components/FormValidator.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 
 const editProfileValidation = new FormValidator(validationConfig, formName);
 editProfileValidation.enableValidation();
-// не работает 
+// не работает
 editProfileValidation.hideError();
 
 const api = new Api({
@@ -72,15 +73,6 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-// const defaultCardList = new Section({
-//   data: items,
-//   renderer: (item) => {
-//     const card = new DefaultCard(item, '.default-card');
-//     const cardElement = card.generate();
-//     defaultCardList.setItem(cardElement);
-//   }
-// }, cardListSelector);
 
 import { renderLoading } from "../utils/utils.js";
 
@@ -102,7 +94,23 @@ const profileInfo = new UserInfo({
   about: jobInfo,
   avatar: userAvatar,
 });
-console.log(profileInfo);
+
+const popupWithImage = new PopupWithImage(popupImageZoom);
+popupWithImage.setEventListeners();
+
+const createCard = ({ name, link, userId }, selector) => {
+  return new Card(
+    {
+      name,
+      link,
+      userId,
+      handleClickLike: () => {},
+      handleClickDeleteCard: () => {},
+      handleclickImage: () => popupWithImage.open({ link, name }),
+    },
+    selector
+  );
+};
 
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
@@ -120,8 +128,8 @@ api.getAllInfo().then(([cards, userData]) => {
       renderer: (item) => {
         const card =
           userId === item.owner._id
-            ? new Card(item, "#post-template-user")
-            : new Card(item, "#post-template");
+            ? createCard({ ...item }, "#post-template-user")
+            : createCard({ ...item }, "#post-template");
         const cardElement = card.generate();
         cardList.addItem(cardElement);
       },
@@ -138,13 +146,9 @@ const fillInEditProfileFormInputs = () => {
 
 const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
   changeLikeStatus(cardId, isLiked)
-    .then((dataFromServer) =>
-      updateLikeState(cardElement, dataFromServer.likes, userId)
-    )
+    .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, userId))
     .catch((err) => {
-      console.log(
-        `Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`
-      );
+      console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
     });
 };
 
@@ -160,10 +164,8 @@ const handleDeleteCard = (cardElement, cardId) => {
 };
 
 //функция для заполнения попапа профиля данными
-// todo А если передавать универсальный селектор попапа? Будут открывать и закрывать все попапы
 const profilePopup = new Popup(popupProfile);
 profilePopup.setEventListeners();
-
 
 // const openProfile = function () {
 //   hideError();
@@ -194,9 +196,7 @@ function handleProfileChanges(e) {
       closePopup(popupProfile);
     })
     .catch((err) => {
-      console.log(
-        `Что-то не так! Ошибка при изменении данных пользователя: ${err}`
-      );
+      console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
     })
     .finally(() => {
       renderLoading(buttonNamePopup, false);
@@ -210,18 +210,14 @@ function changeUserAvatar(e) {
   editUserAvatar({ avatar: avatarInput.value })
     .then((dataFromServer) => {
       userAvatar.src = avatarInput.value;
-      console.log(
-        `Аватар успешно обновлен! Ссылка на аватар: ${dataFromServer.avatar}`
-      );
+      console.log(`Аватар успешно обновлен! Ссылка на аватар: ${dataFromServer.avatar}`);
     })
     .then(() => {
       formAvatar.reset();
       closePopup(popupAvatar);
     })
     .catch((err) => {
-      console.log(
-        `Что-то не так! Ошибка при попытке изменения аватара: ${err}`
-      );
+      console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
     })
     .finally(() => {
       renderLoading(buttonAvatarPopup, false);
@@ -229,8 +225,17 @@ function changeUserAvatar(e) {
 }
 
 // закрытие и открытие попапа редактирования профиля по кнопке
-openButtonProfile.addEventListener("click", () => profilePopup.open());
+openButtonProfile.addEventListener("click", () => {
+  profilePopup.open();
+  // profileInfo.getUserInfo();
+  // nameInput.value = profileInfo.name;
+  // jobInput.value = jobInfo.textContent;
+  //fillInEditProfileFormInputs();
+  editProfileValidation.hideError();
+});
 // closeProfileButton.addEventListener("click", () => profilePopup.close());
+
+// пусти в зум!
 
 //открытие и закрытие попапа аватара
 userAvatarButton.addEventListener("click", openAvatarPopup);
@@ -251,9 +256,7 @@ const addNewCards = function (evt) {
   addCard({ name: inputPlaceTitle.value, link: inputPlaceLink.value })
     .then((dataFromServer) => {
       renderCard(dataFromServer, postsContainer, userId, clickImage);
-      console.log(
-        `Пост добавлен! Место: ${dataFromServer.name}, ссылка на фото места: ${dataFromServer.link}`
-      );
+      console.log(`Пост добавлен! Место: ${dataFromServer.name}, ссылка на фото места: ${dataFromServer.link}`);
       formPost.reset();
       disableButton(buttonPostPopup, validationConfig);
       closePopup(popupPost);
@@ -270,14 +273,7 @@ const addNewCards = function (evt) {
 const postTemplate = document.querySelector("#post-template");
 //функция для добавления карточек на страницу
 const renderCard = function (data, container, userId, clickImage) {
-  const card = createCard(
-    data,
-    userId,
-    handleChangeLikeStatus,
-    handleDeleteCard,
-    clickImage,
-    postTemplate
-  );
+  const card = createCard(data, userId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
   container.prepend(card);
 };
 

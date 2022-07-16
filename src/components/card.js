@@ -1,19 +1,16 @@
 export default class Card {
-  constructor({ name, link, userId, handleChangeLikeStatus, handleDeleteCard, clickImage }, selector) {
+  constructor({ name, link, userId, handleClickLike, handleClickDeleteCard, handleclickImage }, selector) {
     this._name = name;
     this._link = link;
     this._selector = selector;
     this._userId = userId;
-    this._handleChangeLikeStatus = handleChangeLikeStatus;
-    this._handleDeleteCard = handleDeleteCard;
-    this._clickImage = clickImage;
+    this._handleClickLike = handleClickLike;
+    this._handleClickDeleteCard = handleClickDeleteCard;
+    this._handleclickImage = handleclickImage;
   }
 
   _getElement() {
-    const cardElement = document
-      .querySelector(this._selector)
-      .content.querySelector(".photo-card")
-      .cloneNode(true);
+    const cardElement = document.querySelector(this._selector).content.querySelector(".photo-card").cloneNode(true);
 
     return cardElement;
   }
@@ -53,22 +50,19 @@ export default class Card {
 
   //вешаем слушатели
   _setEventListeners() {
-    this._element
-      .querySelector(".photo-card__image")
-      .addEventListener("click", () => {
-        this._clickImage;
-      });
+    this._element.querySelector(".photo-card__image").addEventListener("click", () => {
+      this._handleclickImage();
+    });
 
-    this._element
-      .querySelector(".photo-card__like")
-      .addEventListener("click", () => {
-        this._handleChangeLikeStatus;
-      });
+    this._element.querySelector(".photo-card__like").addEventListener("click", () => {
+      this._handleClickLike();
+    });
 
     if (this._selector === "#post-template-user") {
       this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
-        this._handleDeleteCard;
+        this._handleClickDeleteCard();
       });
-    } else { }
+    } else {
+    }
   }
 }

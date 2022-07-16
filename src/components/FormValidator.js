@@ -2,19 +2,17 @@ export default class FormValidator {
   constructor(validationConfig, formElement) {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
-    this._inputList = Array.from(
-      this._formElement.querySelectorAll(this._validationConfig.inputSelector)
-    );
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._validationConfig.inputSelector));
     this._buttonElement = this._formElement.querySelector(this._validationConfig.submitButtonSelector);
   }
 
-  // todo может errorElement вынести в коструктор? 
+  // todo может errorElement вынести в коструктор?
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._validationConfig.inputErrorClass);
     errorElement.classList.add(this._validationConfig.errorClass);
     errorElement.textContent = errorMessage;
-  };
+  }
 
   // функция, прячущая ошибку
   _hideInputError(inputElement) {
@@ -22,7 +20,7 @@ export default class FormValidator {
     inputElement.classList.remove(this._validationConfig.inputErrorClass);
     errorElement.classList.remove(this._validationConfig.errorClass);
     errorElement.textContent = "";
-  };
+  }
 
   // функция, проверяющая валидность элемента ввода
   _checkInputValidity(inputElement) {
@@ -31,7 +29,7 @@ export default class FormValidator {
     } else {
       this._hideInputError(inputElement);
     }
-  };
+  }
 
   _setEventListeners() {
     this._toggleButtonState();
@@ -41,12 +39,12 @@ export default class FormValidator {
         this._toggleButtonState();
       });
     });
-  };
+  }
 
   enableValidation() {
     this._formElement.addEventListener("submit", (evt) => evt.preventDefault());
     this._setEventListeners();
-  };
+  }
 
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => {

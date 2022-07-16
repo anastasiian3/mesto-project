@@ -31,19 +31,6 @@ export default class Popup {
   }
 
   setEventListeners() {
-    this._popupSelector
-      .querySelector(".popup__close-button")
-      .addEventListener("click", () => this.close());
+    this._popupSelector.querySelector(".popup__close-button").addEventListener("click", () => this.close());
   }
 }
-
-// //функция для закрытия попапов кликом на оверлей
-// const popups = document.querySelectorAll(".popup");
-// popups.forEach((item) => {
-//   item.addEventListener("mousedown", (evt) => {
-//     if (evt.target.closest(".popup__container")) {
-//       return;
-//     }
-//     closePopup(evt.target.closest(".popup"));
-//   });
-// });
