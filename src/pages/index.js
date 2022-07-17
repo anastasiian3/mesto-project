@@ -66,7 +66,6 @@ import UserInfo from "../components/UserInfo.js";
 // создание валидации для формы пользователя
 const editProfileValidation = new FormValidator(validationConfig, formName);
 editProfileValidation.enableValidation();
-// не работает
 editProfileValidation.hideError();
 
 // экземпляр класса апи
@@ -77,16 +76,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-let userId;
-
-// const setUserInfo = (user) => {
-//   //получение данных пользователя
-//   nameInfo.textContent = user.name;
-//   jobInfo.textContent = user.about;
-//   userAvatar.src = user.avatar;
-//   userId = user._id;
-// };
+// Возможно стоит сменить название
+let myId;
 
 const profileInfo = new UserInfo({
   name: nameInfo,
@@ -97,51 +88,48 @@ const profileInfo = new UserInfo({
 const popupWithImage = new PopupWithImage(popupImageZoom);
 popupWithImage.setEventListeners();
 
-// const createCard = ({ name, link, _id, likes, userId }, selector) => {
-//   return new Card(
-//     {
-//       name,
-//       link,
-//       _id,
-//       likes,
-//       userId,
-//       handleClickLike: () => {
-//         console.log("Лайк");
-//       },
-//       handleClickDeleteCard: (cardId) => {
-//         console.log("Карточка удалена");
-//         // todo Получить ид
-//         console.log("_id: ", _id);
-//         console.log("likes: ", likes);
-//         api
-//           .removeCard(cardId)
-//           .then((dataFromServer) => {
-//             //clickButtonDelete(cardElement);
-//             // const cardElement = document.querySelector(${#_id})
-//             handleDeleteCard(cardElement, _id);
-//             console.log(`Внимание! ${dataFromServer.message}`);
-//           })
-//           .catch((err) => {
-//             console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
-//           });
-//       },
-//       handleclickImage: () => popupWithImage.open({ link, name }),
-//     },
-//     selector
-//   );
-// };
+const createCard = (item) => {
+  return new Card({
+    title: item.name,
+    link: item.link,
+    ownerId: item.owner._id,
+    cardId: item._id,
+    myId: myId,
+    likes: item.likes,
+    cardSelector: "#post-template",
+    handleLikeClick: () => {
+      console.log("Лайк");
+    },
+    handleDeleteClick: (cardId) => {
+      console.log("Карточка удалена");
+
+      // api
+      //   .removeCard(cardId)
+      //   .then((dataFromServer) => {
+      //     //clickButtonDelete(cardElement);
+      //     // const cardElement = document.querySelector(${#_id})
+      //     handleDeleteCard(cardElement, _id);
+      //     console.log(`Внимание! ${dataFromServer.message}`);
+      //   })
+      //   .catch((err) => {
+      //     console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
+      //   });
+    },
+    handleCardClick: () => popupWithImage.open({ title, link }),
+  });
+};
 
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
-  userId = userData._id;
+  myId = userData._id;
 
   // const cardList = new Section(
   //   {
   //     items: cards,
   //     renderer: (item) => {
   //       const card =
-  //         userId === item.owner._id
+  //         myId === item.owner._id
   //           ? createCard({ ...item }, "#post-template-user")
   //           : createCard({ ...item }, "#post-template");
   //       //console.log("item.owner._id: ", item.owner._id);
@@ -157,16 +145,17 @@ api.getAllInfo().then(([cards, userData]) => {
     {
       items: cards,
       renderer: (item) => {
-        const card = new Card(item, "#post-template");
+        const card = createCard(item);
         //: createCard({ ...item }, "#post-template");
         //console.log("item.owner._id: ", item.owner._id);
         //console.log(item);
-        const cardElement = card.generate(userId);
+        const cardElement = card.generate(myId);
         cardList.addItem(cardElement);
       },
     },
     postsContainer
   );
+
   cardList.renderItems();
 });
 //заполнение формы профиля данными со страницы
@@ -177,7 +166,7 @@ const fillInEditProfileFormInputs = () => {
 //изменение лайков и связь с сервером
 const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
   changeLikeStatus(cardId, isLiked)
-    .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, userId))
+    .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, myId))
     .catch((err) => {
       console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
     });
@@ -289,7 +278,7 @@ const addNewCards = function (evt) {
 
   addCard({ name: inputPlaceTitle.value, link: inputPlaceLink.value })
     .then((dataFromServer) => {
-      renderCard(dataFromServer, postsContainer, userId, clickImage);
+      renderCard(dataFromServer, postsContainer, myId, clickImage);
       console.log(`Пост добавлен! Место: ${dataFromServer.name}, ссылка на фото места: ${dataFromServer.link}`);
       formPost.reset();
       disableButton(buttonPostPopup, validationConfig);
@@ -306,8 +295,8 @@ const addNewCards = function (evt) {
 //переменная для темплейта карточки
 // const postTemplate = document.querySelector("#post-template");
 //функция для добавления карточек на страницу
-// const renderCard = function (data, container, userId, clickImage) {
-//   const card = createCard(data, userId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
+// const renderCard = function (data, container, myId, clickImage) {
+//   const card = createCard(data, myId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
 //   container.prepend(card);
 // };
 
