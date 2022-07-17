@@ -13,15 +13,12 @@ import {
   nameInput,
   jobInfo,
   jobInput,
-  popupImage,
-  popupImageTitle,
   popupImageZoom,
   inputPlaceTitle,
   inputPlaceLink,
   userAvatar,
   avatarInput,
   popupAvatar,
-  closeAvatarButton,
   formAvatar,
   userAvatarButton,
   buttonAvatarPopup,
@@ -50,6 +47,8 @@ const api = new Api({
 });
 
 let myId;
+
+let cardList;
 
 const popupWithImage = new PopupWithImage(popupImageZoom);
 popupWithImage.setEventListeners();
@@ -92,7 +91,7 @@ api.getAllInfo().then(([cards, userData]) => {
   profileInfo.setUserInfo(userData);
   myId = userData._id;
 
-  const cardList = new Section(
+  cardList = new Section(
     {
       items: cards,
       renderer: (item) => {
@@ -155,27 +154,6 @@ function handleProfileChanges(e) {
     });
 }
 
-// функция для изменения аватара
-function changeUserAvatar(e) {
-  e.preventDefault();
-  renderLoading(buttonAvatarPopup, true);
-  editUserAvatar({ avatar: avatarInput.value })
-    .then((dataFromServer) => {
-      userAvatar.src = avatarInput.value;
-      console.log(`Аватар успешно обновлен! Ссылка на аватар: ${dataFromServer.avatar}`);
-    })
-    .then(() => {
-      formAvatar.reset();
-      closePopup(popupAvatar);
-    })
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
-    })
-    .finally(() => {
-      renderLoading(buttonAvatarPopup, false);
-    });
-}
-
 // открытие попапа редактирования профиля
 const profilePopup = new Popup(popupProfile);
 profilePopup.setEventListeners();
@@ -206,45 +184,72 @@ function handleAvatarForm() {
   avatarPopup.open();
 }
 
+newPostButton.addEventListener("click", handlePostForm);
+
+// функция для изменения аватара
+function changeUserAvatar(e) {
+  e.preventDefault();
+  renderLoading(buttonAvatarPopup, true);
+  editUserAvatar({ avatar: avatarInput.value })
+    .then((dataFromServer) => {
+      userAvatar.src = avatarInput.value;
+      console.log(`Аватар успешно обновлен! Ссылка на аватар: ${dataFromServer.avatar}`);
+    })
+    .then(() => {
+      formAvatar.reset();
+      closePopup(popupAvatar);
+    })
+    .catch((err) => {
+      console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
+    })
+    .finally(() => {
+      renderLoading(buttonAvatarPopup, false);
+    });
+}
+
 userAvatarButton.addEventListener("click", handleAvatarForm);
 
-// открытие попапа редактирования аватара
-const postPopup = new Popup(popupPost);
-postPopup.setEventListeners();
+// открытие попапа добавления поста
+// const postPopup = new Popup(popupPost);
+// addNewCard.setEventListeners();
 
+const newPostValidation = new FormValidator(validationConfig, formPost);
 function handlePostForm() {
   // создание валидации для формы нового поста
-  const newPostValidation = new FormValidator(validationConfig, formPost);
   newPostValidation.enableValidation();
   newPostValidation.hideError();
   newPostValidation.disableButton();
-  postPopup.open();
+  addNewCard.open();
 }
 
 newPostButton.addEventListener("click", handlePostForm);
 
-// отправка новых карточек через форму
-const addNewCards = function (evt) {
-  evt.preventDefault();
-  renderLoading(buttonPostPopup, true);
+const addNewCard = new PopupWithForm({
+  popupSelector: document.querySelector(".popup_type_post"),
+  handleFormSubmit: (inputValue) => {
+    //   renderLoading(buttonPostPopup, true);
+    api
+      .addCard({ name: inputValue.placeTitle, link: inputValue.placeLink })
+      .then((data) => {
+        const card = createCard(data);
+        const cardElement = card.generate();
+        cardList.addItem(cardElement);
+        console.log(`Пост добавлен! Место: ${data.name}, ссылка на фото места: ${data.link}`);
+        newPostValidation.disableButton();
+        addNewCard.close();
+      })
+      .catch((err) => {
+        console.log(`Что-то не так! Ошибка при добавлении карточки: ${err}`);
+      })
+      .finally(() => {
+        //renderLoading(buttonPostPopup, false);
+      });
+  },
+});
 
-  addCard({ name: inputPlaceTitle.value, link: inputPlaceLink.value })
-    .then((dataFromServer) => {
-      renderCard(dataFromServer, postsContainer, myId, clickImage);
-      console.log(`Пост добавлен! Место: ${dataFromServer.name}, ссылка на фото места: ${dataFromServer.link}`);
-      formPost.reset();
-      disableButton(buttonPostPopup, validationConfig);
-      closePopup(popupPost);
-    })
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при добавлении карточки: ${err}`);
-    })
-    .finally(() => {
-      renderLoading(buttonPostPopup, false);
-    });
-};
+addNewCard.setEventListeners();
 
 // слушатель событий формы
-formPost.addEventListener("submit", addNewCards);
+//formPost.addEventListener("submit", addNewCards);
 formName.addEventListener("submit", handleProfileChanges);
 formAvatar.addEventListener("submit", changeUserAvatar);
