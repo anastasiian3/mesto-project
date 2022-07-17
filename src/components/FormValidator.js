@@ -61,12 +61,12 @@ export default class FormValidator {
       this._buttonElement.disabled = false;
     }
   }
-  // todo Может быть не приватной
+
   disableButton() {
     this._buttonElement.classList.add(this._validationConfig.inactiveButtonClass);
     this._buttonElement.disabled = "disabled";
   }
-  // todo Подумать над реализацией
+
   hideError() {
     this._errorTextList = this._formElement.querySelectorAll(".form__input-error");
     this._errorTextList.forEach((error) => {

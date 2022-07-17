@@ -4,25 +4,15 @@ import {
   userInfo,
   postsContainer,
   formPost,
-  popupPost,
   popupProfile,
   openButtonProfile,
   newPostButton,
   formName,
-  nameInfo,
   nameInput,
-  jobInfo,
   jobInput,
   popupImageZoom,
-  inputPlaceTitle,
-  inputPlaceLink,
-  userAvatar,
-  avatarInput,
-  popupAvatar,
   formAvatar,
   userAvatarButton,
-  buttonAvatarPopup,
-  buttonPostPopup,
   buttonNamePopup,
 } from "../utils/data.js";
 
@@ -67,7 +57,6 @@ const createCard = (item) => {
     },
     handleDeleteClick: () => {
       console.log("Карточка удалена");
-
       // api
       //   .removeCard(cardId)
       //   .then((dataFromServer) => {
@@ -83,9 +72,10 @@ const createCard = (item) => {
     handleCardClick: () => popupWithImage.open(item.link, item.name),
   });
 };
+
 //экземпляр класса UserInfo
 const profileInfo = new UserInfo(userInfo);
-
+//promise all для подтягивания данных на страницу
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
@@ -154,7 +144,7 @@ function handleProfileChanges(e) {
     });
 }
 
-// открытие попапа редактирования профиля
+// открытие попапа редактирования профиля ПЕРЕДЕЛАТЬ
 const profilePopup = new Popup(popupProfile);
 profilePopup.setEventListeners();
 
@@ -171,49 +161,46 @@ function handleProfileForm() {
 
 openButtonProfile.addEventListener("click", handleProfileForm);
 
-// открытие попапа редактирования аватара
-const avatarPopup = new Popup(popupAvatar);
-avatarPopup.setEventListeners();
-
+//валидация для попапа изменения аватара
+const editAvatarValidation = new FormValidator(validationConfig, formAvatar);
+//функция для открытия попапа изменения аватара
 function handleAvatarForm() {
   // создание валидации для формы изменения аватара
-  const editAvatarValidation = new FormValidator(validationConfig, formAvatar);
   editAvatarValidation.enableValidation();
   editAvatarValidation.hideError();
   editAvatarValidation.disableButton();
-  avatarPopup.open();
+  changeUserAvatar.open();
 }
+//экземпляр класса для попапа изменения аватара
+const changeUserAvatar = new PopupWithForm({
+  popupSelector: document.querySelector(".popup_type_avatar"),
+  handleFormSubmit: (inputValue) => {
+    //   renderLoading(buttonPostPopup, true);
+    api
+      .editUserAvatar({ avatar: inputValue.avatarInput })
+      .then((data) => {
+        profileInfo.setUserInfo({ avatar: data.avatar });
 
-newPostButton.addEventListener("click", handlePostForm);
-
-// функция для изменения аватара
-function changeUserAvatar(e) {
-  e.preventDefault();
-  renderLoading(buttonAvatarPopup, true);
-  editUserAvatar({ avatar: avatarInput.value })
-    .then((dataFromServer) => {
-      userAvatar.src = avatarInput.value;
-      console.log(`Аватар успешно обновлен! Ссылка на аватар: ${dataFromServer.avatar}`);
-    })
-    .then(() => {
-      formAvatar.reset();
-      closePopup(popupAvatar);
-    })
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
-    })
-    .finally(() => {
-      renderLoading(buttonAvatarPopup, false);
-    });
-}
-
+        console.log(`Аватар успешно обновлен! Ссылка на аватар: ${data.avatar}`);
+        editAvatarValidation.disableButton();
+        changeUserAvatar.close();
+      })
+      .catch((err) => {
+        console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
+      })
+      .finally(() => {
+        //renderLoading(buttonPostPopup, false);
+      });
+  },
+});
+// навешиваем слушатели на попап изменения аватара
+changeUserAvatar.setEventListeners();
+//слушатель для открытия попапа изменения аватара
 userAvatarButton.addEventListener("click", handleAvatarForm);
 
-// открытие попапа добавления поста
-// const postPopup = new Popup(popupPost);
-// addNewCard.setEventListeners();
-
+//валидация для попапа добавления новой карточки
 const newPostValidation = new FormValidator(validationConfig, formPost);
+//функция для открытия попапа добавления новой карточки
 function handlePostForm() {
   // создание валидации для формы нового поста
   newPostValidation.enableValidation();
@@ -221,9 +208,9 @@ function handlePostForm() {
   newPostValidation.disableButton();
   addNewCard.open();
 }
-
+//слушатель клика по кнопке для попапа добавления новой карточки
 newPostButton.addEventListener("click", handlePostForm);
-
+//экземпляр класса для попапа добавления новой карточки
 const addNewCard = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_post"),
   handleFormSubmit: (inputValue) => {
@@ -246,10 +233,10 @@ const addNewCard = new PopupWithForm({
       });
   },
 });
-
+//слушатель для попапа добавления новой карточки
 addNewCard.setEventListeners();
 
-// слушатель событий формы
+// слушатель событий формы СТАРОЕ
 //formPost.addEventListener("submit", addNewCards);
-formName.addEventListener("submit", handleProfileChanges);
-formAvatar.addEventListener("submit", changeUserAvatar);
+// formName.addEventListener("submit", handleProfileChanges);
+//formAvatar.addEventListener("submit", changeUserAvatar);

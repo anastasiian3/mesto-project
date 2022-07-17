@@ -1,6 +1,5 @@
 export default class UserInfo {
   constructor({ nameSelector, aboutSelector, avatarSelector }) {
-    // содержит селекторы! переделать!
     this._nameSelector = document.querySelector(nameSelector);
     this._aboutSelector = document.querySelector(aboutSelector);
     this._avatarSelector = document.querySelector(avatarSelector);
@@ -14,8 +13,8 @@ export default class UserInfo {
   }
 
   setUserInfo({ name, about, avatar }) {
-    this._nameSelector.textContent = name;
-    this._aboutSelector.textContent = about;
-    this._avatarSelector.src = avatar;
+    if (name) this._nameSelector.textContent = name;
+    if (about) this._aboutSelector.textContent = about;
+    if (avatar) this._avatarSelector.src = avatar;
   }
 }
