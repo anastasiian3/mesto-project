@@ -99,8 +99,11 @@ const createCard = (item) => {
     cardSelector: "#post-template",
     handleLikeClick: () => {
       console.log("Лайк");
+      console.log("owner: " + item.owner._id);
+      console.log("itemID: " + item._id);
+      console.log("MyID: " + myId);
     },
-    handleDeleteClick: (cardId) => {
+    handleDeleteClick: () => {
       console.log("Карточка удалена");
 
       // api
@@ -115,7 +118,7 @@ const createCard = (item) => {
       //     console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
       //   });
     },
-    handleCardClick: () => popupWithImage.open({ title, link }),
+    handleCardClick: () => popupWithImage.open(item.link, item.name),
   });
 };
 

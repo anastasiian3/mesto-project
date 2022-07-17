@@ -21,8 +21,6 @@ export default class Card {
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteClick = handleDeleteClick;
     this._handleCardClick = handleCardClick;
-    // есть подозрение, что через элемент тут не найти, потому что он объявлен только внизу
-    // this._likeButton = this._element.querySelector(".photo-card__like");
   }
 
   _getElement() {
@@ -35,9 +33,7 @@ export default class Card {
     this._element = this._getElement();
 
     this._setEventListeners();
-    // this._checkLikes(ownerId);
-    // this.updateLikeState(ownerId);
-    //console.log(ownerId);
+
     //отрисовка фото
     this._element.querySelector(".photo-card__image").src = this._link;
     // отрисовка названия
@@ -45,26 +41,12 @@ export default class Card {
     // добавление alt
     this._element.querySelector(".photo-card__image").alt = this._title;
 
-    // Описать логику корзины здесь 
+    // Описать логику корзины 
     if (this._ownerId !== this._myId) {
-
-     }
-    
-    // const deleteButton = cardElement.querySelector(".element__trash-button");
-    // if (card.owner._id !== userId) {
-    //   deleteButton.style.display = "none";
-    // } else {
-    //   deleteButton.style.display = "block";
-    // }
-
-    const deleteButton = cardElement.querySelector(".element__trash-button");
-    if (card.owner._id !== userId) {
-      deleteButton.style.display = "none";
-    } else {
-      deleteButton.style.display = "block";
+      this._element.querySelector(".photo-card__delete-icon").remove();
     }
 
-    //const likeCounter = cardElement.querySelector(".photo-card__like-counter");
+    //отрисовка количества лайков
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
     this._likeCounter.textContent = this._likes.length;
 
@@ -98,23 +80,9 @@ export default class Card {
   // }
 
   //вешаем слушатели
-  _setEventListeners(ownerId) {
-    this._element.querySelector(".photo-card__image").addEventListener("click", () => {
-      //this._handleCardClick();
-      // this._checkLikes();
-      // this.updateLikeState();
-      console.log(ownerId);
-    });
-
-    this._element.querySelector(".photo-card__like").addEventListener("click", () => {
-      this._handleLikeClick();
-    });
-
-    if (this._cardSelector === "#post-template-user") {
-      this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
-        this._handleDeleteClick();
-      });
-    } else {
-    }
+  _setEventListeners() {
+    this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
+    this._element.querySelector(".photo-card__like").addEventListener("click", this._handleLikeClick);
+    this._element.querySelector(".photo-card__delete-icon").addEventListener("click", this._handleDeleteClick);
   }
 }
