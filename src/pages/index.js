@@ -1,28 +1,13 @@
 import "./index.css"; // добавьте импорт главного файла стилей
 
-// import { openPopup, closePopup } from "../components/modal.js";
-
-// import //createCard,
-// // updateLikeState,
-// //clickButtonDelete,
-// "../components/old_card.js";
-
-// import {
-//   disableButton,
-//   enableValidation,
-//   hideError,
-// } from "../components/validate.js";
-
 import {
+  userInfo,
   postsContainer,
   formPost,
   popupPost,
   popupProfile,
   openButtonProfile,
   newPostButton,
-  closeProfileButton,
-  closeNewPostButton,
-  closeImageButton,
   formName,
   nameInfo,
   nameInput,
@@ -44,29 +29,16 @@ import {
   buttonNamePopup,
 } from "../utils/data.js";
 
-// import {
-//   addCard,
-//   editProfile,
-//   editUserAvatar,
-//   getAllInfo,
-//   changeLikeStatus,
-//   removeCard,
-// } from "../components/api.js";
-
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import { renderLoading } from "../utils/utils.js";
 import { validationConfig } from "../utils/constants.js";
 import UserInfo from "../components/UserInfo.js";
-
-// создание валидации для формы пользователя
-const editProfileValidation = new FormValidator(validationConfig, formName);
-editProfileValidation.enableValidation();
-editProfileValidation.hideError();
 
 // экземпляр класса апи
 const api = new Api({
@@ -76,14 +48,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-// Возможно стоит сменить название
-let myId;
 
-const profileInfo = new UserInfo({
-  name: nameInfo,
-  about: jobInfo,
-  avatar: userAvatar,
-});
+let myId;
 
 const popupWithImage = new PopupWithImage(popupImageZoom);
 popupWithImage.setEventListeners();
@@ -99,9 +65,6 @@ const createCard = (item) => {
     cardSelector: "#post-template",
     handleLikeClick: () => {
       console.log("Лайк");
-      console.log("owner: " + item.owner._id);
-      console.log("itemID: " + item._id);
-      console.log("MyID: " + myId);
     },
     handleDeleteClick: () => {
       console.log("Карточка удалена");
@@ -121,51 +84,28 @@ const createCard = (item) => {
     handleCardClick: () => popupWithImage.open(item.link, item.name),
   });
 };
+//экземпляр класса UserInfo
+const profileInfo = new UserInfo(userInfo);
 
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
   myId = userData._id;
 
-  // const cardList = new Section(
-  //   {
-  //     items: cards,
-  //     renderer: (item) => {
-  //       const card =
-  //         myId === item.owner._id
-  //           ? createCard({ ...item }, "#post-template-user")
-  //           : createCard({ ...item }, "#post-template");
-  //       //console.log("item.owner._id: ", item.owner._id);
-  //       //console.log(item);
-  //       const cardElement = card.generate();
-  //       cardList.addItem(cardElement);
-  //     },
-  //   },
-  //   postsContainer
-  // );
-
   const cardList = new Section(
     {
       items: cards,
       renderer: (item) => {
         const card = createCard(item);
-        //: createCard({ ...item }, "#post-template");
-        //console.log("item.owner._id: ", item.owner._id);
-        //console.log(item);
-        const cardElement = card.generate(myId);
+        const cardElement = card.generate();
         cardList.addItem(cardElement);
       },
     },
     postsContainer
   );
-
   cardList.renderItems();
 });
-//заполнение формы профиля данными со страницы
-const fillInEditProfileFormInputs = () => {
-  nameInput.value = nameInfo.textContent;
-  jobInput.value = jobInfo.textContent;
-};
+
 //изменение лайков и связь с сервером
 const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
   changeLikeStatus(cardId, isLiked)
@@ -174,11 +114,13 @@ const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
       console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
     });
 };
+
 //удаление элемента из дом
 const clickButtonDelete = function (element) {
   element.remove();
   element = null;
 };
+
 //удаление, связь с сервером
 const handleDeleteCard = (cardElement, cardId) => {
   removeCard(cardId)
@@ -189,24 +131,6 @@ const handleDeleteCard = (cardElement, cardId) => {
     .catch((err) => {
       console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
     });
-};
-
-//функция для заполнения попапа профиля данными
-const profilePopup = new Popup(popupProfile);
-profilePopup.setEventListeners();
-
-// const openProfile = function () {
-//   hideError();
-//   fillInEditProfileFormInputs();
-//   disableButton(buttonNamePopup, validationConfig);
-//   openPopup(popupProfile);
-// };
-
-//открытие попапа для изменения аватара
-const openAvatarPopup = function () {
-  hideError();
-  openPopup(popupAvatar);
-  disableButton(buttonAvatarPopup, validationConfig);
 };
 
 // функция для редактирования информации в профиле
@@ -252,27 +176,52 @@ function changeUserAvatar(e) {
     });
 }
 
-// закрытие и открытие попапа редактирования профиля по кнопке
-openButtonProfile.addEventListener("click", () => {
-  profilePopup.open();
-  // profileInfo.getUserInfo();
-  // nameInput.value = profileInfo.name;
-  // jobInput.value = jobInfo.textContent;
-  fillInEditProfileFormInputs();
+// открытие попапа редактирования профиля
+const profilePopup = new Popup(popupProfile);
+profilePopup.setEventListeners();
+
+function handleProfileForm() {
+  //заполнение формы профиля данными со страницы
+  const userObj = profileInfo.getUserInfo();
+  nameInput.value = userObj.name;
+  jobInput.value = userObj.about;
+  const editProfileValidation = new FormValidator(validationConfig, formName);
+  editProfileValidation.enableValidation();
   editProfileValidation.hideError();
-});
-// closeProfileButton.addEventListener("click", () => profilePopup.close());
+  profilePopup.open();
+}
 
-//открытие и закрытие попапа аватара
-userAvatarButton.addEventListener("click", openAvatarPopup);
-closeAvatarButton.addEventListener("click", () => closePopup(popupAvatar));
+openButtonProfile.addEventListener("click", handleProfileForm);
 
-//кнопка добавления и закрытия окна нового поста
-newPostButton.addEventListener("click", () => openPopup(popupPost));
-closeNewPostButton.addEventListener("click", () => closePopup(popupPost));
+// открытие попапа редактирования аватара
+const avatarPopup = new Popup(popupAvatar);
+avatarPopup.setEventListeners();
 
-// закрытие попапа с картинкой
-closeImageButton.addEventListener("click", () => closePopup(popupImageZoom));
+function handleAvatarForm() {
+  // создание валидации для формы изменения аватара
+  const editAvatarValidation = new FormValidator(validationConfig, formAvatar);
+  editAvatarValidation.enableValidation();
+  editAvatarValidation.hideError();
+  editAvatarValidation.disableButton();
+  avatarPopup.open();
+}
+
+userAvatarButton.addEventListener("click", handleAvatarForm);
+
+// открытие попапа редактирования аватара
+const postPopup = new Popup(popupPost);
+postPopup.setEventListeners();
+
+function handlePostForm() {
+  // создание валидации для формы нового поста
+  const newPostValidation = new FormValidator(validationConfig, formPost);
+  newPostValidation.enableValidation();
+  newPostValidation.hideError();
+  newPostValidation.disableButton();
+  postPopup.open();
+}
+
+newPostButton.addEventListener("click", handlePostForm);
 
 // отправка новых карточек через форму
 const addNewCards = function (evt) {
@@ -295,25 +244,7 @@ const addNewCards = function (evt) {
     });
 };
 
-//переменная для темплейта карточки
-// const postTemplate = document.querySelector("#post-template");
-//функция для добавления карточек на страницу
-// const renderCard = function (data, container, myId, clickImage) {
-//   const card = createCard(data, myId, handleChangeLikeStatus, handleDeleteCard, clickImage, postTemplate);
-//   container.prepend(card);
-// };
-
 // слушатель событий формы
 formPost.addEventListener("submit", addNewCards);
 formName.addEventListener("submit", handleProfileChanges);
 formAvatar.addEventListener("submit", changeUserAvatar);
-
-// функция для клика на картинку
-const clickImage = function (data) {
-  popupImage.src = data.link;
-  popupImageTitle.textContent = data.name;
-  popupImage.alt = data.name;
-  openPopup(popupImageZoom);
-};
-
-// enableValidation(validationConfig);

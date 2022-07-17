@@ -62,7 +62,7 @@ export default class FormValidator {
     }
   }
   // todo Может быть не приватной
-  _disableButton() {
+  disableButton() {
     this._buttonElement.classList.add(this._validationConfig.inactiveButtonClass);
     this._buttonElement.disabled = "disabled";
   }
