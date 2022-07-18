@@ -21,6 +21,7 @@ export default class Card {
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteClick = handleDeleteClick;
     this._handleCardClick = handleCardClick;
+    this.clickButtonDelete = this.clickButtonDelete.bind(this);
   }
 
   _getElement() {
@@ -41,7 +42,7 @@ export default class Card {
     // добавление alt
     this._element.querySelector(".photo-card__image").alt = this._title;
 
-    // Описать логику корзины 
+    // Описать логику корзины
     if (this._ownerId !== this._myId) {
       this._element.querySelector(".photo-card__delete-icon").remove();
     }
@@ -49,6 +50,14 @@ export default class Card {
     //отрисовка количества лайков
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
     this._likeCounter.textContent = this._likes.length;
+
+    if (
+      this._likes.find((item) => {
+        return this._myId === item._id;
+      })
+    ) {
+      this._element.querySelector(".photo-card__like").classList.add("photo-card__like_active");
+    }
 
     return this._element;
   }
@@ -81,12 +90,16 @@ export default class Card {
 
   // Работает только со стрелочной функцией
   // Видимо дело в области видимости стрелочной функции
-  // Я думал что  this._element можно передовать по методам без препятствий 
+  // Я думал что  this._element можно передовать по методам без препятствий
 
-  clickButtonDelete = () => {
+  // clickButtonDelete = () => {
+  //   this._element.remove();
+  //   console.log("Клик удаления");
+  // };
+
+  clickButtonDelete() {
     this._element.remove();
-    console.log("Клик удаления");
-  };
+  }
 
   //вешаем слушатели
   _setEventListeners() {
@@ -99,3 +112,38 @@ export default class Card {
     });
   }
 }
+
+// const likesNumber = cardElement.querySelector(".element__heart-counter");
+// const likeButton = cardElement.querySelector(".element__heart");
+// likesNumber.textContent = card.likes.length;
+// Проверка активного лайка
+// if (
+//   card.likes.find((item) => {
+//     return userId === item._id;
+//   })
+// ) {
+//   likeButton.classList.add("element__heart_active");
+// }
+
+// function handleToggleLike(evt, cardId, likesNumber, card) {
+//   likesNumber.textContent = card.likes.length;
+//   if (!evt.target.classList.contains("photo-card__like_active")) {
+//     addLike(cardId)
+//       .then((data) => {
+//         evt.target.classList.toggle("photo-card__like_active");
+//         likesNumber.textContent = data.likes.length;
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   } else {
+//     removeLike(cardId)
+//       .then((data) => {
+//         evt.target.classList.toggle("photo-card__like_active");
+//         likesNumber.textContent = data.likes.length;
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+// }

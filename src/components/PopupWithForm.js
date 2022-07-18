@@ -5,6 +5,7 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit; //тут дб метод класса апи
     this._formElement = this._popupSelector.querySelector(".form");
+    this._buttonSubmit = this._formElement.querySelector(".form__button-submit");
   }
 
   _getInputValues() {
@@ -21,6 +22,10 @@ export default class PopupWithForm extends Popup {
 
     // возвращаем объект значений
     return this._formValues;
+  }
+
+  renderLoading(buttonMessage) {
+    this._buttonSubmit.textContent = buttonMessage;
   }
 
   setEventListeners() {

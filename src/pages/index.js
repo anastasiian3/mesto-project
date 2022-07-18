@@ -19,11 +19,9 @@ import {
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card.js";
-import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
-import { renderLoading } from "../utils/utils.js";
 import { validationConfig } from "../utils/constants.js";
 import UserInfo from "../components/UserInfo.js";
 
@@ -53,10 +51,33 @@ const createCard = (item) => {
     likes: item.likes,
     cardSelector: "#post-template",
     handleLikeClick: () => {
-      console.log("Лайк");
+      const likeCounter = card.querySelector(".photo-card__like-counter");
+      likeCounter.textContent = card.likes.length;
+      if (!evt.target.classList.contains("photo-card__like_active")) {
+        api
+          .addLike(item._id)
+          .then((data) => {
+            evt.target.classList.toggle("photo-card__like_active");
+            likeCounter.textContent = data.likes.length;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        api
+          .removeLike(item._id)
+          .then((data) => {
+            evt.target.classList.toggle("photo-card__like_active");
+            likeCounter.textContent = data.likes.length;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     handleDeleteClick: () => {
-      api.removeCard(item._id)
+      api
+        .removeCard(item._id)
         .then((dataFromServer) => {
           card.clickButtonDelete();
           console.log(`Внимание! ${dataFromServer.message}`);
@@ -93,17 +114,16 @@ api.getAllInfo().then(([cards, userData]) => {
   cardList.renderItems();
 });
 
-//изменение лайков и связь с сервером
-const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
-  changeLikeStatus(cardId, isLiked)
-    .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, myId))
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
-    });
-};
+// //изменение лайков и связь с сервером
+// const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
+//   changeLikeStatus(cardId, isLiked)
+//     .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, myId))
+//     .catch((err) => {
+//       console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
+//     });
+// };
 
 //удаление элемента из дом
-
 
 //удаление, связь с сервером
 // function handleDeleteCard(cardElement, cardId) {
@@ -118,41 +138,61 @@ const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
 // };
 
 // функция для редактирования информации в профиле
-function handleProfileChanges(e) {
-  e.preventDefault();
-  renderLoading(buttonNamePopup, true);
-  editProfile({ name: nameInput.value, about: jobInput.value })
-    .then((dataFromServer) => {
-      setUserInfo(dataFromServer);
-      console.log(
-        `Профиль успешно обновлен! Имя пользователя: ${dataFromServer.name}, профессия: ${dataFromServer.about}`
-      );
-    })
-    .then(() => {
-      closePopup(popupProfile);
-    })
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
-    })
-    .finally(() => {
-      renderLoading(buttonNamePopup, false);
-    });
-}
+// function handleProfileChanges(e) {
+//   e.preventDefault();
+//   renderLoading(buttonNamePopup, true);
+//   editProfile({ name: nameInput.value, about: jobInput.value })
+//     .then((dataFromServer) => {
+//       setUserInfo(dataFromServer);
+//       console.log(
+//         `Профиль успешно обновлен! Имя пользователя: ${dataFromServer.name}, профессия: ${dataFromServer.about}`
+//       );
+//     })
+//     .then(() => {
+//       closePopup(popupProfile);
+//     })
+//     .catch((err) => {
+//       console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
+//     })
+//     .finally(() => {
+//       renderLoading(buttonNamePopup, false);
+//     });
+// }
 
-// открытие попапа редактирования профиля ПЕРЕДЕЛАТЬ
-const profilePopup = new Popup(popupProfile);
-profilePopup.setEventListeners();
-
+const editProfileValidation = new FormValidator(validationConfig, formName);
 function handleProfileForm() {
   //заполнение формы профиля данными со страницы
   const userObj = profileInfo.getUserInfo();
   nameInput.value = userObj.name;
   jobInput.value = userObj.about;
-  const editProfileValidation = new FormValidator(validationConfig, formName);
   editProfileValidation.enableValidation();
   editProfileValidation.hideError();
-  profilePopup.open();
+  editProfileValidation.disableButton();
+  changeUserInfo.open();
 }
+
+const changeUserInfo = new PopupWithForm({
+  popupSelector: document.querySelector(".popup_type_name"),
+  handleFormSubmit: (inputValue) => {
+    changeUserInfo.renderLoading("Сохранение...");
+    api
+      .editProfile({ name: inputValue.nameInput, about: inputValue.professionInput })
+      .then((data) => {
+        profileInfo.setUserInfo({ name: data.name, about: data.about });
+
+        console.log(`Профиль успешно обновлен! Имя пользователя: ${data.name}, профессия: ${data.about}`);
+        editProfileValidation.disableButton();
+        changeUserInfo.close();
+      })
+      .catch((err) => {
+        console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
+      })
+      .finally(() => {
+        changeUserInfo.renderLoading("Сохранить");
+      });
+  },
+});
+changeUserInfo.setEventListeners();
 
 openButtonProfile.addEventListener("click", handleProfileForm);
 
@@ -170,7 +210,7 @@ function handleAvatarForm() {
 const changeUserAvatar = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_avatar"),
   handleFormSubmit: (inputValue) => {
-    //   renderLoading(buttonPostPopup, true);
+    changeUserAvatar.renderLoading("Сохранение...");
     api
       .editUserAvatar({ avatar: inputValue.avatarInput })
       .then((data) => {
@@ -184,7 +224,7 @@ const changeUserAvatar = new PopupWithForm({
         console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
       })
       .finally(() => {
-        //renderLoading(buttonPostPopup, false);
+        changeUserAvatar.renderLoading("Сохранить");
       });
   },
 });
@@ -210,6 +250,7 @@ const addNewCard = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_post"),
   handleFormSubmit: (inputValue) => {
     //   renderLoading(buttonPostPopup, true);
+    addNewCard.renderLoading("Сохранение...");
     api
       .addCard({ name: inputValue.placeTitle, link: inputValue.placeLink })
       .then((data) => {
@@ -224,14 +265,9 @@ const addNewCard = new PopupWithForm({
         console.log(`Что-то не так! Ошибка при добавлении карточки: ${err}`);
       })
       .finally(() => {
-        //renderLoading(buttonPostPopup, false);
+        addNewCard.renderLoading("Сохранить");
       });
   },
 });
 //слушатель для попапа добавления новой карточки
 addNewCard.setEventListeners();
-
-// слушатель событий формы СТАРОЕ
-//formPost.addEventListener("submit", addNewCards);
-// formName.addEventListener("submit", handleProfileChanges);
-//formAvatar.addEventListener("submit", changeUserAvatar);

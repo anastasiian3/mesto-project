@@ -64,11 +64,27 @@ export default class Api {
     }).then(this._onResponce);
   }
 
-  // изменение состояния лайка
-  changeLikeStatus(dataId, isLiked) {
+  addLike(dataId) {
     return fetch(`${this._url}/cards/likes/${dataId}`, {
-      method: isLiked ? "DELETE" : "PUT",
+      method: "PUT",
       headers: this._headers,
     }).then(this._onResponce);
   }
+
+  // метод удаления лайка
+  removeLike(dataId) {
+    return fetch(`${this._url}/cards/likes/${dataId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then(this._onResponce);
+  }
+
+  // изменение состояния лайка
+  // changeLikeStatus(dataId, isLiked) {
+  //   return fetch(`${this._url}/cards/likes/${dataId}`, {
+  //     method: isLiked ? "DELETE" : "PUT",
+  //     headers: this._headers,
+  //   }).then(this._onResponce);
+  // }
+  // метод добавления лайка
 }
