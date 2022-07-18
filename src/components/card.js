@@ -79,10 +79,23 @@ export default class Card {
   //   }
   // }
 
+  // Работает только со стрелочной функцией
+  // Видимо дело в области видимости стрелочной функции
+  // Я думал что  this._element можно передовать по методам без препятствий 
+
+  clickButtonDelete = () => {
+    this._element.remove();
+    console.log("Клик удаления");
+  };
+
   //вешаем слушатели
   _setEventListeners() {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
-    this._element.querySelector(".photo-card__like").addEventListener("click", this._handleLikeClick);
-    this._element.querySelector(".photo-card__delete-icon").addEventListener("click", this._handleDeleteClick);
+    this._element.querySelector(".photo-card__like").addEventListener("click", () => {
+      this._handleLikeClick();
+    });
+    this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
+      this._handleDeleteClick();
+    });
   }
 }

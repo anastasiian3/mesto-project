@@ -44,7 +44,7 @@ const popupWithImage = new PopupWithImage(popupImageZoom);
 popupWithImage.setEventListeners();
 
 const createCard = (item) => {
-  return new Card({
+  const card = new Card({
     title: item.name,
     link: item.link,
     ownerId: item.owner._id,
@@ -56,25 +56,23 @@ const createCard = (item) => {
       console.log("Лайк");
     },
     handleDeleteClick: () => {
-      console.log("Карточка удалена");
-      // api
-      //   .removeCard(cardId)
-      //   .then((dataFromServer) => {
-      //     //clickButtonDelete(cardElement);
-      //     // const cardElement = document.querySelector(${#_id})
-      //     handleDeleteCard(cardElement, _id);
-      //     console.log(`Внимание! ${dataFromServer.message}`);
-      //   })
-      //   .catch((err) => {
-      //     console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
-      //   });
+      api.removeCard(item._id)
+        .then((dataFromServer) => {
+          card.clickButtonDelete();
+          console.log(`Внимание! ${dataFromServer.message}`);
+        })
+        .catch((err) => {
+          console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
+        });
     },
     handleCardClick: () => popupWithImage.open(item.link, item.name),
   });
+  return card;
 };
 
 //экземпляр класса UserInfo
 const profileInfo = new UserInfo(userInfo);
+
 //promise all для подтягивания данных на страницу
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
@@ -105,22 +103,19 @@ const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
 };
 
 //удаление элемента из дом
-const clickButtonDelete = function (element) {
-  element.remove();
-  element = null;
-};
+
 
 //удаление, связь с сервером
-const handleDeleteCard = (cardElement, cardId) => {
-  removeCard(cardId)
-    .then((dataFromServer) => {
-      clickButtonDelete(cardElement);
-      console.log(`Внимание! ${dataFromServer.message}`);
-    })
-    .catch((err) => {
-      console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
-    });
-};
+// function handleDeleteCard(cardElement, cardId) {
+//   removeCard(cardId)
+//     .then((dataFromServer) => {
+//       clickButtonDelete(cardElement);
+//       console.log(`Внимание! ${dataFromServer.message}`);
+//     })
+//     .catch((err) => {
+//       console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
+//     });
+// };
 
 // функция для редактирования информации в профиле
 function handleProfileChanges(e) {
