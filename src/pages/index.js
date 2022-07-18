@@ -4,7 +4,6 @@ import {
   userInfo,
   postsContainer,
   formPost,
-  popupProfile,
   openButtonProfile,
   newPostButton,
   formName,
@@ -13,12 +12,11 @@ import {
   popupImageZoom,
   formAvatar,
   userAvatarButton,
-  buttonNamePopup,
 } from "../utils/data.js";
 
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
-import Card from "../components/Card.js";
+import Card from "../components/Сard.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -50,9 +48,8 @@ const createCard = (item) => {
     myId: myId,
     likes: item.likes,
     cardSelector: "#post-template",
-    handleLikeClick: () => {
-      const likeCounter = card.querySelector(".photo-card__like-counter");
-      likeCounter.textContent = card.likes.length;
+    handleLikeClick: (evt) => {
+      // не видит таргет, выводила в консоль = андефайнд
       if (!evt.target.classList.contains("photo-card__like_active")) {
         api
           .addLike(item._id)
@@ -113,51 +110,6 @@ api.getAllInfo().then(([cards, userData]) => {
   );
   cardList.renderItems();
 });
-
-// //изменение лайков и связь с сервером
-// const handleChangeLikeStatus = (cardElement, cardId, isLiked) => {
-//   changeLikeStatus(cardId, isLiked)
-//     .then((dataFromServer) => updateLikeState(cardElement, dataFromServer.likes, myId))
-//     .catch((err) => {
-//       console.log(`Что-то не так! Ошибка при обновлении лайков на карточке: ${err}`);
-//     });
-// };
-
-//удаление элемента из дом
-
-//удаление, связь с сервером
-// function handleDeleteCard(cardElement, cardId) {
-//   removeCard(cardId)
-//     .then((dataFromServer) => {
-//       clickButtonDelete(cardElement);
-//       console.log(`Внимание! ${dataFromServer.message}`);
-//     })
-//     .catch((err) => {
-//       console.log(`Что-то не так! Ошибка при удалении карточки: ${err}`);
-//     });
-// };
-
-// функция для редактирования информации в профиле
-// function handleProfileChanges(e) {
-//   e.preventDefault();
-//   renderLoading(buttonNamePopup, true);
-//   editProfile({ name: nameInput.value, about: jobInput.value })
-//     .then((dataFromServer) => {
-//       setUserInfo(dataFromServer);
-//       console.log(
-//         `Профиль успешно обновлен! Имя пользователя: ${dataFromServer.name}, профессия: ${dataFromServer.about}`
-//       );
-//     })
-//     .then(() => {
-//       closePopup(popupProfile);
-//     })
-//     .catch((err) => {
-//       console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
-//     })
-//     .finally(() => {
-//       renderLoading(buttonNamePopup, false);
-//     });
-// }
 
 const editProfileValidation = new FormValidator(validationConfig, formName);
 function handleProfileForm() {

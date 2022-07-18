@@ -61,9 +61,6 @@ export default class Card {
 
     return this._element;
   }
-  // при загрузке айдишник пользователя виден, потом почему-то выдает undefined
-  // какие слушатели вешать, какой порядок?
-  // сама функция лайка и связи с сервером на главной
   //
   // _checkLikes(ownerId) {
   //   return Boolean(
@@ -75,27 +72,18 @@ export default class Card {
   //   );
   // }
 
-  // updateLikeState(ownerId) {
-  //   // this._likeButton = this._element.querySelector(".photo-card__like");
+  // updateLikeState() {
+  //   this._likeButton = this._element.querySelector(".photo-card__like");
   //   console.log(this._likeButton);
-  //   // const likeCounter = cardElement.querySelector(".photo-card__like-counter");
-  //   // likeCounter.textContent = likesArray.length;
+  //   const likeCounter = cardElement.querySelector(".photo-card__like-counter");
+  //   likeCounter.textContent = likesArray.length;
 
-  //   if (this._checkLikes()) {
-  //     this._likeButton.classList.add("photo-card__like_active");
-  //   } else {
-  //     this._likeButton.classList.remove("photo-card__like_active");
-  //   }
+  // if (this._checkLikes()) {
+  //   this._likeButton.classList.add("photo-card__like_active");
+  // } else {
+  //   this._likeButton.classList.remove("photo-card__like_active");
   // }
-
-  // Работает только со стрелочной функцией
-  // Видимо дело в области видимости стрелочной функции
-  // Я думал что  this._element можно передовать по методам без препятствий
-
-  // clickButtonDelete = () => {
-  //   this._element.remove();
-  //   console.log("Клик удаления");
-  // };
+  // }
 
   clickButtonDelete() {
     this._element.remove();
@@ -105,25 +93,13 @@ export default class Card {
   _setEventListeners() {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
     this._element.querySelector(".photo-card__like").addEventListener("click", () => {
-      this._handleLikeClick();
+      this._handleLikeClick(this.updateLikeState);
     });
     this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
       this._handleDeleteClick();
     });
   }
 }
-
-// const likesNumber = cardElement.querySelector(".element__heart-counter");
-// const likeButton = cardElement.querySelector(".element__heart");
-// likesNumber.textContent = card.likes.length;
-// Проверка активного лайка
-// if (
-//   card.likes.find((item) => {
-//     return userId === item._id;
-//   })
-// ) {
-//   likeButton.classList.add("element__heart_active");
-// }
 
 // function handleToggleLike(evt, cardId, likesNumber, card) {
 //   likesNumber.textContent = card.likes.length;
