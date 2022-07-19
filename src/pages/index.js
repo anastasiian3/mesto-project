@@ -133,7 +133,6 @@ const changeUserInfo = new PopupWithForm({
         profileInfo.setUserInfo({ name: data.name, about: data.about });
 
         console.log(`Профиль успешно обновлен! Имя пользователя: ${data.name}, профессия: ${data.about}`);
-        editProfileValidation.disableButton();
         changeUserInfo.close();
       })
       .catch((err) => {
@@ -169,7 +168,6 @@ const changeUserAvatar = new PopupWithForm({
         profileInfo.setUserInfo({ avatar: data.avatar });
 
         console.log(`Аватар успешно обновлен! Ссылка на аватар: ${data.avatar}`);
-        editAvatarValidation.disableButton();
         changeUserAvatar.close();
       })
       .catch((err) => {
@@ -201,7 +199,6 @@ newPostButton.addEventListener("click", handlePostForm);
 const addNewCard = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_post"),
   handleFormSubmit: (inputValue) => {
-    //   renderLoading(buttonPostPopup, true);
     addNewCard.renderLoading("Сохранение...");
     api
       .addCard({ name: inputValue.placeTitle, link: inputValue.placeLink })
@@ -210,7 +207,6 @@ const addNewCard = new PopupWithForm({
         const cardElement = card.generate();
         cardList.addItem(cardElement);
         console.log(`Пост добавлен! Место: ${data.name}, ссылка на фото места: ${data.link}`);
-        newPostValidation.disableButton();
         addNewCard.close();
       })
       .catch((err) => {
