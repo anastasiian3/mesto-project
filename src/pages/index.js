@@ -48,29 +48,29 @@ const createCard = (item) => {
     myId: myId,
     likes: item.likes,
     cardSelector: "#post-template",
-    handleLikeClick: (evt) => {
-      // не видит таргет, выводила в консоль = андефайнд
-      if (!evt.target.classList.contains("photo-card__like_active")) {
-        api
-          .addLike(item._id)
-          .then((data) => {
-            evt.target.classList.toggle("photo-card__like_active");
-            likeCounter.textContent = data.likes.length;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        api
-          .removeLike(item._id)
-          .then((data) => {
-            evt.target.classList.toggle("photo-card__like_active");
-            likeCounter.textContent = data.likes.length;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+    handleAddLikeClick: () => {
+      api
+        .addLike(item._id)
+        .then((data) => {
+          card.setLike();
+          // likeCounter.textContent = data.likes.length;
+          card.showLikeCounter();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleRemoveLikeClick: () => {
+      api
+        .removeLike(item._id)
+        .then(() => {
+          card.setLike();
+          // likeCounter.textContent = data.likes.length;
+          card.showLikeCounter();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleDeleteClick: () => {
       api

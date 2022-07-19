@@ -7,7 +7,8 @@ export default class Card {
     myId,
     likes,
     cardSelector,
-    handleLikeClick,
+    handleAddLikeClick,
+    handleRemoveLikeClick,
     handleDeleteClick,
     handleCardClick,
   }) {
@@ -18,7 +19,8 @@ export default class Card {
     this._myId = myId;
     this._likes = likes;
     this._cardSelector = cardSelector;
-    this._handleLikeClick = handleLikeClick;
+    this._handleAddLikeClick = handleAddLikeClick;
+    this._handleRemoveLikeClick = handleRemoveLikeClick;
     this._handleDeleteClick = handleDeleteClick;
     this._handleCardClick = handleCardClick;
     this.clickButtonDelete = this.clickButtonDelete.bind(this);
@@ -37,13 +39,24 @@ export default class Card {
       this._element.querySelector(".photo-card__delete-icon").remove();
     }
   }
+
+  setLike() {
+    this._like = this._element.querySelector(".photo-card__like");
+    this._like.classList.toggle("photo-card__like_active");
+
+    if (!this._like.classList.contains("photo-card__like_active")) {
+      this._handleAddLikeClick();
+    } else {
+      this._handleRemoveLikeClick();
+    }
+  }
+
   //отрисовка количества лайков
-  _showLikeCounter() {
+  showLikeCounter() {
     // Находим счетчик лайков
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
     // Записываем в него количество всех лайков
     this._likeCounter.textContent = this._likes.length;
-
   }
 
   _checkMyLike() {
@@ -54,12 +67,14 @@ export default class Card {
     }
   }
 
+
+
   generate() {
     this._element = this._getElement();
 
     this._setEventListeners();
     this._showDeleteButton();
-    this._showLikeCounter();
+    this.showLikeCounter();
     this._checkMyLike();
 
     //отрисовка фото
@@ -71,29 +86,6 @@ export default class Card {
 
     return this._element;
   }
-  //
-  // _checkLikes(ownerId) {
-  //   return Boolean(
-  //     this._likes.find((likeObj) => {
-  //       // console.log(ownerId);
-  //       // console.log(likeObj);
-  //       return likeObj.cardId === ownerId;
-  //     })
-  //   );
-  // }
-
-  // updateLikeState() {
-  //   this._likeButton = this._element.querySelector(".photo-card__like");
-  //   console.log(this._likeButton);
-  //   const likeCounter = cardElement.querySelector(".photo-card__like-counter");
-  //   likeCounter.textContent = likesArray.length;
-
-  // if (this._checkLikes()) {
-  //   this._likeButton.classList.add("photo-card__like_active");
-  // } else {
-  //   this._likeButton.classList.remove("photo-card__like_active");
-  // }
-  // }
 
   clickButtonDelete() {
     this._element.remove();
@@ -102,8 +94,9 @@ export default class Card {
   //вешаем слушатели
   _setEventListeners() {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
+
     this._element.querySelector(".photo-card__like").addEventListener("click", () => {
-      this._handleLikeClick(this.updateLikeState);
+      this.setLike();
     });
     this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
       this._handleDeleteClick();
