@@ -73,6 +73,7 @@ export default class Card {
 
   generate() {
     this._element = this._getElement();
+    this._like = this._element.querySelector(".photo-card__like");
 
     this._setEventListeners();
     this._showDeleteButton();

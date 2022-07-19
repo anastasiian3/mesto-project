@@ -5,7 +5,7 @@ export default class Api {
     this._headers = headers;
   }
 
-  _onResponce(responce) {
+  _checkResponse(responce) {
     return responce.ok ? responce.json() : Promise.reject(responce);
   }
 
@@ -15,14 +15,14 @@ export default class Api {
   getCards() {
     return fetch(`${this._url}/cards`, {
       headers: this._headers,
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   //получение информации о пользователе
   getUser() {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   getAllInfo() {
@@ -35,7 +35,7 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   //добавление новой карточки
@@ -44,7 +44,7 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   //удаление карточки
@@ -52,7 +52,7 @@ export default class Api {
     return fetch(`${this._url}/cards/${dataId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   //изменение аватара
@@ -61,14 +61,14 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   addLike(dataId) {
     return fetch(`${this._url}/cards/likes/${dataId}`, {
       method: "PUT",
       headers: this._headers,
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   // метод удаления лайка
@@ -76,7 +76,7 @@ export default class Api {
     return fetch(`${this._url}/cards/likes/${dataId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._onResponce);
+    }).then(this._checkResponse);
   }
 
   // изменение состояния лайка
@@ -84,7 +84,7 @@ export default class Api {
   //   return fetch(`${this._url}/cards/likes/${dataId}`, {
   //     method: isLiked ? "DELETE" : "PUT",
   //     headers: this._headers,
-  //   }).then(this._onResponce);
+  //   }).then(this._checkResponse);
   // }
   // метод добавления лайка
 }
