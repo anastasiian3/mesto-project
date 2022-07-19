@@ -61,7 +61,6 @@ export default class Card {
     // Находим счетчик лайков
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
     // Записываем в него количество всех лайков
-    // this._likeCounter.textContent = this._likes.length;
     this._likeCounter.textContent = likesArray;
   }
 
@@ -74,13 +73,10 @@ export default class Card {
 
   generate() {
     this._element = this._getElement();
-    // this._likeCounter = this._element.querySelector(".photo-card__like-counter");
-    // this._likeCounter.textContent = this._likes.length;
 
     this._setEventListeners();
     this._showDeleteButton();
     this.showLikeCounter(this._likes.length);
-    //this.setLike();
     this._checkMyLike();
 
     //отрисовка фото
