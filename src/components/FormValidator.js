@@ -6,7 +6,6 @@ export default class FormValidator {
     this._buttonElement = this._formElement.querySelector(this._validationConfig.submitButtonSelector);
   }
 
-  // todo может errorElement вынести в коструктор?
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._validationConfig.inputErrorClass);
@@ -54,8 +53,7 @@ export default class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._validationConfig.inactiveButtonClass);
-      this._buttonElement.disabled = "disabled";
+      this.disableButton();
     } else {
       this._buttonElement.classList.remove(this._validationConfig.inactiveButtonClass);
       this._buttonElement.disabled = false;
@@ -68,13 +66,8 @@ export default class FormValidator {
   }
 
   hideError() {
-    this._errorTextList = this._formElement.querySelectorAll(".form__input-error");
-    this._errorTextList.forEach((error) => {
-      error.textContent = "";
-    });
-
     this._inputList.forEach((inputElement) => {
-      inputElement.classList.remove(this._validationConfig.inputErrorClass);
+      this._hideInputError(inputElement);
     });
   }
 }

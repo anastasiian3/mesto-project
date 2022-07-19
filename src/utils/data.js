@@ -1,12 +1,12 @@
 //переменные для работы card js
-const postsContainer = document.querySelector(".photo-grid__elements");
+const postsContainer = ".photo-grid__elements";
 const formPost = document.querySelector(".form_add-post");
 
-// переменные для различных попапов
-const popupProfile = document.querySelector(".popup_type_name");
-const popupPost = document.querySelector(".popup_type_post");
-const popupImageZoom = document.querySelector(".popup_type_image");
-const popupAvatar = document.querySelector(".popup_type_avatar");
+// селекторы для различных попапов
+const popupProfile = ".popup_type_name";
+const popupPost = ".popup_type_post";
+const popupImageZoom = ".popup_type_image";
+const popupAvatar = ".popup_type_avatar";
 
 // переменные для открытия попапа
 const profile = document.querySelector(".user-profile");
@@ -14,13 +14,13 @@ const openButtonProfile = profile.querySelector(".user-profile__name-change-butt
 const newPostButton = profile.querySelector(".user-profile__add-button");
 
 // переменные для закрытия попапа
-const closeProfileButton = popupProfile.querySelector(".popup__close-button");
-const closeNewPostButton = popupPost.querySelector(".popup__close-button");
-const closeImageButton = document.querySelector(".popup__close-button_type_image");
+// const closeProfileButton = popupProfile.querySelector(".popup__close-button");
+// const closeNewPostButton = popupPost.querySelector(".popup__close-button");
+// const closeImageButton = document.querySelector(".popup__close-button_type_image");
 
 //попап с картинкой
-const popupImage = popupImageZoom.querySelector(".popup__image");
-const popupImageTitle = popupImageZoom.querySelector(".popup__image-title");
+// const popupImage = popupImageZoom.querySelector(".popup__image");
+// const popupImageTitle = popupImageZoom.querySelector(".popup__image-title");
 
 //изменение формы
 const formName = document.querySelector("#form-name-change");
@@ -30,8 +30,8 @@ const jobInfo = document.querySelector(".user-profile__description");
 const jobInput = document.querySelector("#profession-input");
 
 //отправка новых карточек через форму
-const inputPlaceTitle = popupPost.querySelector("#place-title");
-const inputPlaceLink = popupPost.querySelector("#place-link");
+// const inputPlaceTitle = popupPost.querySelector("#place-title");
+// const inputPlaceLink = popupPost.querySelector("#place-link");
 
 //кнопки в попапах
 const buttonNamePopup = document.querySelector(".form__button-submit-name");
@@ -65,11 +65,6 @@ export {
   formPost,
   openButtonProfile,
   newPostButton,
-  closeProfileButton,
-  closeNewPostButton,
-  closeImageButton,
-  popupImage,
-  popupImageTitle,
   formName,
   nameInfo,
   nameInput,
@@ -78,8 +73,6 @@ export {
   popupImageZoom,
   popupPost,
   popupProfile,
-  inputPlaceTitle,
-  inputPlaceLink,
   userAvatar,
   avatarInput,
   popupAvatar,

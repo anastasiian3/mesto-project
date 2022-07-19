@@ -68,6 +68,7 @@ export default class Card {
     this._element = this._getElement();
     this._like = this._element.querySelector(".photo-card__like");
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
+    this._cardImg = this._element.querySelector(".photo-card__image");
 
     this._setEventListeners();
     this._showDeleteButton();
@@ -75,11 +76,11 @@ export default class Card {
     this._checkMyLike();
 
     //отрисовка фото
-    this._element.querySelector(".photo-card__image").src = this._link;
+    this._cardImg.src = this._link;
     // отрисовка названия
     this._element.querySelector(".photo-card__title").textContent = this._title;
     // добавление alt
-    this._element.querySelector(".photo-card__image").alt = this._title;
+    this._cardImg.alt = this._title;
 
     return this._element;
   }
@@ -90,7 +91,7 @@ export default class Card {
 
   //вешаем слушатели
   _setEventListeners() {
-    this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
+    this._cardImg.addEventListener("click", this._handleCardClick);
 
     this._like.addEventListener("click", () => {
       this._handleLike();

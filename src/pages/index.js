@@ -101,9 +101,9 @@ api.getAllInfo().then(([cards, userData]) => {
 });
 
 const changeUserInfo = new PopupWithForm({
-  popupSelector: document.querySelector(".popup_type_name"),
+  popupSelector: ".popup_type_name",
   handleFormSubmit: (inputValue) => {
-    changeUserInfo.renderLoading("Сохранение...");
+    changeUserInfo.renderLoading(true);
     api
       .editProfile({ name: inputValue.nameInput, about: inputValue.professionInput })
       .then((data) => {
@@ -116,16 +116,16 @@ const changeUserInfo = new PopupWithForm({
         console.log(`Что-то не так! Ошибка при изменении данных пользователя: ${err}`);
       })
       .finally(() => {
-        changeUserInfo.renderLoading("Сохранить");
+        changeUserInfo.renderLoading(false);
       });
   },
 });
 
 //экземпляр класса для попапа изменения аватара
 const changeUserAvatar = new PopupWithForm({
-  popupSelector: document.querySelector(".popup_type_avatar"),
+  popupSelector: ".popup_type_avatar",
   handleFormSubmit: (inputValue) => {
-    changeUserAvatar.renderLoading("Сохранение...");
+    changeUserAvatar.renderLoading(true);
     api
       .editUserAvatar({ avatar: inputValue.avatarInput })
       .then((data) => {
@@ -138,16 +138,16 @@ const changeUserAvatar = new PopupWithForm({
         console.log(`Что-то не так! Ошибка при попытке изменения аватара: ${err}`);
       })
       .finally(() => {
-        changeUserAvatar.renderLoading("Сохранить");
+        changeUserAvatar.renderLoading(false);
       });
   },
 });
 
 //экземпляр класса для попапа добавления новой карточки
 const addNewCard = new PopupWithForm({
-  popupSelector: document.querySelector(".popup_type_post"),
+  popupSelector: ".popup_type_post",
   handleFormSubmit: (inputValue) => {
-    addNewCard.renderLoading("Сохранение...");
+    addNewCard.renderLoading(true);
     api
       .addCard({ name: inputValue.placeTitle, link: inputValue.placeLink })
       .then((data) => {
@@ -161,7 +161,7 @@ const addNewCard = new PopupWithForm({
         console.log(`Что-то не так! Ошибка при добавлении карточки: ${err}`);
       })
       .finally(() => {
-        addNewCard.renderLoading("Сохранить");
+        addNewCard.renderLoading(false);
       });
   },
 });
