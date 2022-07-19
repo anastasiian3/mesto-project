@@ -53,8 +53,8 @@ const createCard = (item) => {
         .addLike(item._id)
         .then((data) => {
           card.setLike();
-          // likeCounter.textContent = data.likes.length;
-          card.showLikeCounter();
+          card.showLikeCounter(data.likes.length);
+          console.log(data.likes.length);
         })
         .catch((err) => {
           console.log(err);
@@ -63,10 +63,10 @@ const createCard = (item) => {
     handleRemoveLikeClick: () => {
       api
         .removeLike(item._id)
-        .then(() => {
+        .then((data) => {
           card.setLike();
-          // likeCounter.textContent = data.likes.length;
-          card.showLikeCounter();
+          card.showLikeCounter(data.likes.length);
+          console.log(data.likes.length);
         })
         .catch((err) => {
           console.log(err);

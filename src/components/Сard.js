@@ -43,42 +43,44 @@ export default class Card {
   setLike() {
     this._like = this._element.querySelector(".photo-card__like");
     this._like.classList.toggle("photo-card__like_active");
+    // this.showLikeCounter();
   }
 
-  _handeleLike() {
-    // Может можно как-то передать без нового объявления? 
+  _handleLike() {
+    // Может можно как-то передать без нового объявления?
     this._like = this._element.querySelector(".photo-card__like");
     if (!this._like.classList.contains("photo-card__like_active")) {
       this._handleAddLikeClick();
     } else {
       this._handleRemoveLikeClick();
     }
-  };
+  }
 
   //отрисовка количества лайков
-  showLikeCounter() {
+  showLikeCounter(likesArray) {
     // Находим счетчик лайков
     this._likeCounter = this._element.querySelector(".photo-card__like-counter");
     // Записываем в него количество всех лайков
-    this._likeCounter.textContent = this._likes.length;
+    // this._likeCounter.textContent = this._likes.length;
+    this._likeCounter.textContent = likesArray;
   }
 
   _checkMyLike() {
     // Если в массиве есть наш айдишник делайм лайк активным
     if (this._likes.find((item) => this._myId === item._id)) {
-      this._element.querySelector(".photo-card__like")
-        .classList.add("photo-card__like_active");
+      this._element.querySelector(".photo-card__like").classList.add("photo-card__like_active");
     }
   }
 
-
-
   generate() {
     this._element = this._getElement();
+    // this._likeCounter = this._element.querySelector(".photo-card__like-counter");
+    // this._likeCounter.textContent = this._likes.length;
 
     this._setEventListeners();
     this._showDeleteButton();
-    this.showLikeCounter();
+    this.showLikeCounter(this._likes.length);
+    //this.setLike();
     this._checkMyLike();
 
     //отрисовка фото
@@ -100,7 +102,7 @@ export default class Card {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
 
     this._element.querySelector(".photo-card__like").addEventListener("click", () => {
-      this._handeleLike();
+      this._handleLike();
     });
     this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
       this._handleDeleteClick();
