@@ -54,7 +54,6 @@ const createCard = (item) => {
         .then((data) => {
           card.setLike();
           card.showLikeCounter(data.likes.length);
-          console.log(data.likes.length);
         })
         .catch((err) => {
           console.log(err);
@@ -66,7 +65,6 @@ const createCard = (item) => {
         .then((data) => {
           card.setLike();
           card.showLikeCounter(data.likes.length);
-          console.log(data.likes.length);
         })
         .catch((err) => {
           console.log(err);
@@ -95,6 +93,7 @@ const profileInfo = new UserInfo(userInfo);
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
+  // todo Значит менять и здесь? 
   myId = userData._id;
 
   cardList = new Section(

@@ -41,14 +41,10 @@ export default class Card {
   }
 
   setLike() {
-    this._like = this._element.querySelector(".photo-card__like");
     this._like.classList.toggle("photo-card__like_active");
-    // this.showLikeCounter();
   }
 
   _handleLike() {
-    // Может можно как-то передать без нового объявления?
-    this._like = this._element.querySelector(".photo-card__like");
     if (!this._like.classList.contains("photo-card__like_active")) {
       this._handleAddLikeClick();
     } else {
@@ -58,22 +54,20 @@ export default class Card {
 
   //отрисовка количества лайков
   showLikeCounter(likesArray) {
-    // Находим счетчик лайков
-    this._likeCounter = this._element.querySelector(".photo-card__like-counter");
-    // Записываем в него количество всех лайков
     this._likeCounter.textContent = likesArray;
   }
 
   _checkMyLike() {
     // Если в массиве есть наш айдишник делайм лайк активным
     if (this._likes.find((item) => this._myId === item._id)) {
-      this._element.querySelector(".photo-card__like").classList.add("photo-card__like_active");
+      this._like.classList.add("photo-card__like_active");
     }
   }
 
   generate() {
     this._element = this._getElement();
     this._like = this._element.querySelector(".photo-card__like");
+    this._likeCounter = this._element.querySelector(".photo-card__like-counter");
 
     this._setEventListeners();
     this._showDeleteButton();
@@ -98,7 +92,7 @@ export default class Card {
   _setEventListeners() {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
 
-    this._element.querySelector(".photo-card__like").addEventListener("click", () => {
+    this._like.addEventListener("click", () => {
       this._handleLike();
     });
     this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
