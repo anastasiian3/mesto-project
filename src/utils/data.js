@@ -51,6 +51,14 @@ const userInfo = {
   avatarSelector: ".user-profile__photo",
 };
 
+const apiConfig = {
+  url: "https://nomoreparties.co/v1/plus-cohort-13",
+  headers: {
+    authorization: "48267a8c-35ef-4976-8b19-19133ce8e68c",
+    "Content-Type": "application/json",
+  },
+};
+
 export {
   userInfo,
   postsContainer,
@@ -81,4 +89,5 @@ export {
   buttonAvatarPopup,
   buttonNamePopup,
   buttonPostPopup,
+  apiConfig,
 };

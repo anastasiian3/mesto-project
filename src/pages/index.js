@@ -12,6 +12,7 @@ import {
   popupImageZoom,
   formAvatar,
   userAvatarButton,
+  apiConfig,
 } from "../utils/data.js";
 
 import Api from "../components/Api.js";
@@ -23,21 +24,14 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import { validationConfig } from "../utils/constants.js";
 import UserInfo from "../components/UserInfo.js";
 
-// экземпляр класса апи
-const api = new Api({
-  url: "https://nomoreparties.co/v1/plus-cohort-13",
-  headers: {
-    authorization: "48267a8c-35ef-4976-8b19-19133ce8e68c",
-    "Content-Type": "application/json",
-  },
-});
-
 let myId;
-
 let cardList;
-
+const api = new Api(apiConfig);
+const profileInfo = new UserInfo(userInfo);
 const popupWithImage = new PopupWithImage(popupImageZoom);
-popupWithImage.setEventListeners();
+const editProfileValidation = new FormValidator(validationConfig, formName);
+const editAvatarValidation = new FormValidator(validationConfig, formAvatar);
+const newPostValidation = new FormValidator(validationConfig, formPost);
 
 const createCard = (item) => {
   const card = new Card({
@@ -86,14 +80,10 @@ const createCard = (item) => {
   return card;
 };
 
-//экземпляр класса UserInfo
-const profileInfo = new UserInfo(userInfo);
-
 //promise all для подтягивания данных на страницу
 api.getAllInfo().then(([cards, userData]) => {
   //функция для получения данных пользователя
   profileInfo.setUserInfo(userData);
-  // todo Значит менять и здесь? 
   myId = userData._id;
 
   cardList = new Section(
@@ -109,18 +99,6 @@ api.getAllInfo().then(([cards, userData]) => {
   );
   cardList.renderItems();
 });
-
-const editProfileValidation = new FormValidator(validationConfig, formName);
-function handleProfileForm() {
-  //заполнение формы профиля данными со страницы
-  const userObj = profileInfo.getUserInfo();
-  nameInput.value = userObj.name;
-  jobInput.value = userObj.about;
-  editProfileValidation.enableValidation();
-  editProfileValidation.hideError();
-  editProfileValidation.disableButton();
-  changeUserInfo.open();
-}
 
 const changeUserInfo = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_name"),
@@ -142,20 +120,7 @@ const changeUserInfo = new PopupWithForm({
       });
   },
 });
-changeUserInfo.setEventListeners();
 
-openButtonProfile.addEventListener("click", handleProfileForm);
-
-//валидация для попапа изменения аватара
-const editAvatarValidation = new FormValidator(validationConfig, formAvatar);
-//функция для открытия попапа изменения аватара
-function handleAvatarForm() {
-  // создание валидации для формы изменения аватара
-  editAvatarValidation.enableValidation();
-  editAvatarValidation.hideError();
-  editAvatarValidation.disableButton();
-  changeUserAvatar.open();
-}
 //экземпляр класса для попапа изменения аватара
 const changeUserAvatar = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_avatar"),
@@ -177,23 +142,7 @@ const changeUserAvatar = new PopupWithForm({
       });
   },
 });
-// навешиваем слушатели на попап изменения аватара
-changeUserAvatar.setEventListeners();
-//слушатель для открытия попапа изменения аватара
-userAvatarButton.addEventListener("click", handleAvatarForm);
 
-//валидация для попапа добавления новой карточки
-const newPostValidation = new FormValidator(validationConfig, formPost);
-//функция для открытия попапа добавления новой карточки
-function handlePostForm() {
-  // создание валидации для формы нового поста
-  newPostValidation.enableValidation();
-  newPostValidation.hideError();
-  newPostValidation.disableButton();
-  addNewCard.open();
-}
-//слушатель клика по кнопке для попапа добавления новой карточки
-newPostButton.addEventListener("click", handlePostForm);
 //экземпляр класса для попапа добавления новой карточки
 const addNewCard = new PopupWithForm({
   popupSelector: document.querySelector(".popup_type_post"),
@@ -216,5 +165,38 @@ const addNewCard = new PopupWithForm({
       });
   },
 });
-//слушатель для попапа добавления новой карточки
+
+function handleProfileForm() {
+  const userObj = profileInfo.getUserInfo();
+  nameInput.value = userObj.name;
+  jobInput.value = userObj.about;
+  editProfileValidation.hideError();
+  editProfileValidation.disableButton();
+  changeUserInfo.open();
+}
+
+//функция для открытия попапа добавления новой карточки
+function handlePostForm() {
+  newPostValidation.hideError();
+  newPostValidation.disableButton();
+  addNewCard.open();
+}
+
+//функция для открытия попапа изменения аватара
+function handleAvatarForm() {
+  editAvatarValidation.hideError();
+  editAvatarValidation.disableButton();
+  changeUserAvatar.open();
+}
+
 addNewCard.setEventListeners();
+newPostButton.addEventListener("click", handlePostForm);
+changeUserInfo.setEventListeners();
+openButtonProfile.addEventListener("click", handleProfileForm);
+popupWithImage.setEventListeners();
+changeUserAvatar.setEventListeners();
+userAvatarButton.addEventListener("click", handleAvatarForm);
+
+newPostValidation.enableValidation();
+editAvatarValidation.enableValidation();
+editProfileValidation.enableValidation();
