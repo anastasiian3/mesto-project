@@ -43,13 +43,17 @@ export default class Card {
   setLike() {
     this._like = this._element.querySelector(".photo-card__like");
     this._like.classList.toggle("photo-card__like_active");
+  }
 
+  _handeleLike() {
+    // Может можно как-то передать без нового объявления? 
+    this._like = this._element.querySelector(".photo-card__like");
     if (!this._like.classList.contains("photo-card__like_active")) {
       this._handleAddLikeClick();
     } else {
       this._handleRemoveLikeClick();
     }
-  }
+  };
 
   //отрисовка количества лайков
   showLikeCounter() {
@@ -96,33 +100,10 @@ export default class Card {
     this._element.querySelector(".photo-card__image").addEventListener("click", this._handleCardClick);
 
     this._element.querySelector(".photo-card__like").addEventListener("click", () => {
-      this.setLike();
+      this._handeleLike();
     });
     this._element.querySelector(".photo-card__delete-icon").addEventListener("click", () => {
       this._handleDeleteClick();
     });
   }
 }
-
-// function handleToggleLike(evt, cardId, likesNumber, card) {
-//   likesNumber.textContent = card.likes.length;
-//   if (!evt.target.classList.contains("photo-card__like_active")) {
-//     addLike(cardId)
-//       .then((data) => {
-//         evt.target.classList.toggle("photo-card__like_active");
-//         likesNumber.textContent = data.likes.length;
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   } else {
-//     removeLike(cardId)
-//       .then((data) => {
-//         evt.target.classList.toggle("photo-card__like_active");
-//         likesNumber.textContent = data.likes.length;
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-// }
