@@ -29,11 +29,38 @@ export default class Card {
 
     return cardElement;
   }
-  // убрал юзерид
+
+  // Вынес в отдельную функцию, так выглядит логичнее
+  _showDeleteButton() {
+    // Рендер корзины
+    if (this._ownerId !== this._myId) {
+      this._element.querySelector(".photo-card__delete-icon").remove();
+    }
+  }
+  //отрисовка количества лайков
+  _showLikeCounter() {
+    // Находим счетчик лайков
+    this._likeCounter = this._element.querySelector(".photo-card__like-counter");
+    // Записываем в него количество всех лайков
+    this._likeCounter.textContent = this._likes.length;
+
+  }
+
+  _checkMyLike() {
+    // Если в массиве есть наш айдишник делайм лайк активным
+    if (this._likes.find((item) => this._myId === item._id)) {
+      this._element.querySelector(".photo-card__like")
+        .classList.add("photo-card__like_active");
+    }
+  }
+
   generate() {
     this._element = this._getElement();
 
     this._setEventListeners();
+    this._showDeleteButton();
+    this._showLikeCounter();
+    this._checkMyLike();
 
     //отрисовка фото
     this._element.querySelector(".photo-card__image").src = this._link;
@@ -41,23 +68,6 @@ export default class Card {
     this._element.querySelector(".photo-card__title").textContent = this._title;
     // добавление alt
     this._element.querySelector(".photo-card__image").alt = this._title;
-
-    // Описать логику корзины
-    if (this._ownerId !== this._myId) {
-      this._element.querySelector(".photo-card__delete-icon").remove();
-    }
-
-    //отрисовка количества лайков
-    this._likeCounter = this._element.querySelector(".photo-card__like-counter");
-    this._likeCounter.textContent = this._likes.length;
-
-    if (
-      this._likes.find((item) => {
-        return this._myId === item._id;
-      })
-    ) {
-      this._element.querySelector(".photo-card__like").classList.add("photo-card__like_active");
-    }
 
     return this._element;
   }
